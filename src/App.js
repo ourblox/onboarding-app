@@ -1,18 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './blox.svg';
+import CreateHome from './create-home';
 import './App.css';
 
 class App extends Component {
+
+  state = {
+    buildingName: "Charles Dickens House",
+  }
+
+  newHomeAdded = (flatNumber) => {
+
+  }
+
   render() {
+    const { buildingName } = this.state;
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <img src={logo} className="App-logo" alt="Blox" />
+
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+
+        <CreateHome buildingName={buildingName} homeCreated={this.newHomeAdded} />
+
+
       </div>
     );
   }

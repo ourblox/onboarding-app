@@ -2,14 +2,18 @@
   "name": "onboarding-app",
   "version": "0.1.0",
   "private": true,
+  "devDependencies": {
+    "sw-precache": "^4.2.2"
+  },
   "dependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-form": "^3.3.2",
     "react-scripts": "1.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && sw-precache --config=sw-precache-config.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
