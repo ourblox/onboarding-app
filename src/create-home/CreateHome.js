@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Text } from 'react-form';
+import EnterNumber from '../components/enter-number/EnterNumber';
 import './CreateHome.css';
-
 
 class CreateHome extends Component {
 
@@ -16,6 +16,7 @@ class CreateHome extends Component {
 
   handleBegin(submittedValues) {
     if(submittedValues.flatNumber) {
+      this.props.db.post(submittedValues);
       this.setState({
         formBegun: true,
         title: submittedValues.flatNumber + ' ' + this.props.buildingName,
@@ -25,7 +26,7 @@ class CreateHome extends Component {
 
   handleSubmit(submittedValues) {
     if (submittedValues) {
-      console.log("Got values", submittedValues)
+      this.props.db.post(submittedValues);
     }
   }
 
@@ -39,7 +40,7 @@ class CreateHome extends Component {
           <Form onSubmit={submittedValues => this.handleBegin( submittedValues )}>
             { formApi => (
           <form className="CreateHome-form" onSubmit={formApi.submitForm}>
-            <Text field="flatNumber" placeholder="Flat number" className="CreateHome-flatNumber" type="number" />
+            <EnterNumber field="flatNumber" placeholder="Flat number"/>
             <button className="CreateHome-submitButton" type="submit">Begin</button>
           </form>
             )}
