@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Form, Text } from 'react-form';
 import './Signup.css';
 import SignupForm from '../login/LoginForm.js';
 
@@ -19,7 +18,6 @@ class Signup extends Component {
   }
 
   render() {
-    const { loggedIn } = this.props;
     return (
     <div className="Signup">
       <div>

@@ -54,9 +54,9 @@ class App extends Component {
   }
 
   CreateUserWrapper = () => {
-    const { loginDb, loggedIn } = this.state; // leaving this as db – correct?
+    const { loginDb } = this.state; 
     return (
-      <Signup db={loginDb} loggedIn={loggedIn}/>
+      <Signup db={loginDb} />
     )
   }
 
@@ -100,8 +100,8 @@ class App extends Component {
 
 
   componentDidMount() {
-    const loginCouch = 'https://blox-onboarding-db1.ourblox.org:6984//bloxlogin'; // Remote for login
-    const remoteCouch = 'https://blox-onboarding-db1.ourblox.org:6984//ourblox';
+    const loginCouch = `${process.env.SSL_ENABLED_COUCHDB_SERVER}/bloxlogin`; // Remote for login
+    const remoteCouch = `${process.env.SSL_ENABLED_COUCHDB_SERVER}/ourblox`;
     const localPouch = 'ourblox';
 
     const loginDb = new PouchDB(loginCouch, {skipSetup: true});

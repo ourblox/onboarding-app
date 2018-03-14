@@ -5,7 +5,6 @@ class LoginForm extends Component {
   render() {
     const {
       handleSubmit,
-      resetForm,
       formType
     } = this.props
     return (
@@ -36,7 +35,6 @@ class LoginForm extends Component {
 // LoginForm.propTypes = {
 //   fields: PropTypes.object.isRequired,
 //   handleSubmit: PropTypes.func.isRequired,
-//   resetForm: PropTypes.func.isRequired,
 //     formType: PropTypes.string.isRequired
 // }
 

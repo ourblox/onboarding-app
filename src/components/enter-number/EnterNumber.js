@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Text } from 'react-form';
+import { Text } from 'react-form';
 import './EnterNumber.css';
 
 class EnterNumber extends Component {

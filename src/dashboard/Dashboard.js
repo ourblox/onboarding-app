@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Form, Text } from 'react-form';
 import './Dashboard.css';
 
 class Dashboard extends Component {

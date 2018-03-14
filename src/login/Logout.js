@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Form, Text } from 'react-form';
 import { Redirect } from 'react-router-dom'
 
 
