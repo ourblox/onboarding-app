@@ -100,8 +100,8 @@ class App extends Component {
 
 
   componentDidMount() {
-    const loginCouch = 'http://localhost:5984/bloxlogin'; // Remote for login
-    const remoteCouch = 'http://localhost:5984/ourblox';
+    const loginCouch = 'https://blox-onboarding-db1.ourblox.org:6984//bloxlogin'; // Remote for login
+    const remoteCouch = 'https://blox-onboarding-db1.ourblox.org:6984//ourblox';
     const localPouch = 'ourblox';
 
     const loginDb = new PouchDB(loginCouch, {skipSetup: true});
