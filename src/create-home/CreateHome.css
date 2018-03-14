@@ -1,5 +1,6 @@
-.CreateHome-form input, .CreateHome-form button {
-  font-family: "Work Sans Semi Bold", Helvetica, sans-serif;
+.CreateHome-form input,
+.CreateHome-form button {
+  font-family: 'Work Sans Semi Bold', Helvetica, sans-serif;
 }
 
 .CreateHome-flatNumber {
@@ -17,10 +18,9 @@
 }
 
 .CreateHome-flatNumber::placeholder {
-  color: rgba(255,255,255,.4);
+  color: rgba(255, 255, 255, 0.4);
   font-size: 16px;
 }
-
 
 .CreateHome-submitButton {
   border: 1px dotted white;

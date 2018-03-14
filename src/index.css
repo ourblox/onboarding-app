@@ -1,14 +1,14 @@
 @font-face {
-  font-family: "Work Sans Semi Bold";
-  src: url("./fonts/WorkSans-SemiBold.woff2") format("woff2"),
-        url("./fonts/WorkSans-SemiBold.woff") format("woff");
-  }
-  body {
-    margin: 0;
-    padding: 0;
-    background: #777677;
-    width: 100%;
-    height: 100%;
-    font-family: "Work Sans Semi Bold", Helvetica, sans-serif;
-    color: white;
-  }
+  font-family: 'Work Sans Semi Bold';
+  src: url('./fonts/WorkSans-SemiBold.woff2') format('woff2'),
+    url('./fonts/WorkSans-SemiBold.woff') format('woff');
+}
+body {
+  margin: 0;
+  padding: 0;
+  background: #777677;
+  width: 100%;
+  height: 100%;
+  font-family: 'Work Sans Semi Bold', Helvetica, sans-serif;
+  color: white;
+}

@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom'
-
+import { Redirect } from 'react-router-dom';
 
 class Logout extends Component {
-
   componentDidMount = () => {
-    this.props.db.logout( (err, response) => {
+    this.props.db.logout((err, response) => {
       if (err) {
         console.debug(err);
       } else {
-        this.props.handleLogout(response)
+        this.props.handleLogout(response);
       }
-    })
-  }
+    });
+  };
 
   render() {
     const { loggedIn } = this.props;
-    return (
-      !loggedIn && (
-        <Redirect to="/login" />
-      )
-    )
+    return !loggedIn && <Redirect to="/login" />;
   }
 }
 

@@ -6,8 +6,11 @@
     "sw-precache": "^4.2.2"
   },
   "dependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^7.0.0",
     "pouchdb": "^6.4.3",
     "pouchdb-authentication": "^1.1.2",
+    "prettier": "^1.11.1",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -15,8 +18,15 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.1"
   },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
   "scripts": {
-    "start": "react-scripts start",
+    "precommit": "lint-staged",
+    "start": "REACT_APP_COUCHDB_SERVER=http://localhost:5984 react-scripts start",
     "build": "react-scripts build && sw-precache --config=sw-precache-config.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
