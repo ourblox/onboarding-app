@@ -9,6 +9,10 @@ class CreateHomeForm extends Component {
     previousAnswers: {}
   };
 
+  setShowFields = () => {
+    this.props.updatePreviousAnswers();
+  };
+
   handleSubmit = submittedValues => {
     if (submittedValues) {
       submittedValues._id = this.props.documentId;
@@ -19,72 +23,85 @@ class CreateHomeForm extends Component {
         .post(submittedValues)
         .then(response => {
           this.props.updateRev(response.rev);
+          this.props.setHiddenFields();
         })
         .catch(err => console.log(err));
     }
   };
 
   render() {
-    const previousAnswers = this.props.previousAnswers;
+    const { displayFields, previousAnswers } = this.props;
     if (!this.props.checked) return <div>Waiting</div>;
     return (
-      <Form onSubmit={submittedValues => this.handleSubmit(submittedValues)}>
-        {formApi => (
-          <div>
-            <h3>{this.props.flatAndBuilding}</h3>
-            <form className="CreateHome-form" onSubmit={formApi.submitForm}>
-              <label>Rough monthly energy bill?</label>
-              <Text
-                field="monthlyBill"
-                placeholder="£"
-                type="number"
-                defaultValue={previousAnswers.monthlyBill}
-              />
-              <label>Number of occupants</label>
-              <Text
-                field="inhabitants"
-                placeholder="1"
-                type="number"
-                defaultValue={previousAnswers.inhabitants}
-              />
-              <label>Which provider are you with?</label>
-              <Text
-                field="provider"
-                placeholder="..."
-                defaultValue={previousAnswers.provider}
-              />
-              <label>How long have you been with them?</label>
-              <Text
-                field="providerDuration"
-                placeholder="Months"
-                type="number"
-                defaultValue={previousAnswers.providerDuration}
-              />
-              <label>Do you like them?</label>
-              <Text
-                field="providerNotes"
-                placeholder="..."
-                defaultValue={previousAnswers.providerNotes}
-              />
-              <label>When was the last time you switched?</label>
-              <Text
-                field="switched"
-                placeholder="..."
-                defaultValue={previousAnswers.switched}
-              />
-              <label>Are you the main account holder?</label>
-              <Text
-                field="mainAccountHolder"
-                placeholder="..."
-                defaultValue={previousAnswers.mainAccountHolder}
-              />
-              <button className="CreateHome-submitButton" type="submit">
-                Proceed
-              </button>
-            </form>
+      <div>
+        {!displayFields && (
+          <div className="BoxContainer">
+            <h3>Your details have been saved. Thank you.</h3>
+            <button onClick={this.setShowFields}>View / Edit</button>
           </div>
         )}
-      </Form>
+        {displayFields && (
+          <Form
+            onSubmit={submittedValues => this.handleSubmit(submittedValues)}
+          >
+            {formApi => (
+              <div>
+                <h3>{this.props.flatAndBuilding}</h3>
+                <form className="CreateHome-form" onSubmit={formApi.submitForm}>
+                  <label>Rough monthly energy bill?</label>
+                  <Text
+                    field="monthlyBill"
+                    placeholder="£"
+                    type="number"
+                    defaultValue={previousAnswers.monthlyBill}
+                  />
+                  <label>Number of occupants</label>
+                  <Text
+                    field="inhabitants"
+                    placeholder="1"
+                    type="number"
+                    defaultValue={previousAnswers.inhabitants}
+                  />
+                  <label>Which provider are you with?</label>
+                  <Text
+                    field="provider"
+                    placeholder="..."
+                    defaultValue={previousAnswers.provider}
+                  />
+                  <label>How long have you been with them?</label>
+                  <Text
+                    field="providerDuration"
+                    placeholder="Months"
+                    type="number"
+                    defaultValue={previousAnswers.providerDuration}
+                  />
+                  <label>Do you like them?</label>
+                  <Text
+                    field="providerNotes"
+                    placeholder="..."
+                    defaultValue={previousAnswers.providerNotes}
+                  />
+                  <label>When was the last time you switched?</label>
+                  <Text
+                    field="switched"
+                    placeholder="..."
+                    defaultValue={previousAnswers.switched}
+                  />
+                  <label>Are you the main account holder?</label>
+                  <Text
+                    field="mainAccountHolder"
+                    placeholder="..."
+                    defaultValue={previousAnswers.mainAccountHolder}
+                  />
+                  <button className="CreateHome-submitButton" type="submit">
+                    Proceed
+                  </button>
+                </form>
+              </div>
+            )}
+          </Form>
+        )}
+      </div>
     );
   }
 }

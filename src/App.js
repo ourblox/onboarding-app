@@ -32,6 +32,7 @@ class App extends Component {
 
   setLoggedOut = () => {
     this.setState({ loggedIn: false });
+    this.checkSession();
   };
 
   setupLocalPouchDB = () => {
@@ -68,65 +69,85 @@ class App extends Component {
   CreateHomeWrapper = () => {
     const { buildingName, localDb, loggedIn } = this.state;
     return (
-      <CreateHome
-        db={localDb}
-        loggedIn={loggedIn}
-        buildingName={buildingName}
-        homeCreated={this.newHomeAdded}
-      />
+      <div>
+        {localDb && (
+          <CreateHome
+            db={localDb}
+            loggedIn={loggedIn}
+            buildingName={buildingName}
+          />
+        )}
+      </div>
     );
   };
 
   MyHomeWrapper = () => {
     const { buildingName, localDb, loggedIn } = this.state;
     return (
-      <MyHome db={localDb} loggedIn={loggedIn} buildingName={buildingName} />
+      <div>
+        {localDb && (
+          <MyHome
+            db={localDb}
+            loggedIn={loggedIn}
+            buildingName={buildingName}
+          />
+        )}
+      </div>
     );
   };
 
   LoginWrapper = () => {
     const { remoteDb, loggedIn } = this.state;
     return (
-      <Login
-        remoteDb={remoteDb}
-        loggedIn={loggedIn}
-        handleLogin={this.setLoggedIn}
-      />
+      <div>
+        {remoteDb && (
+          <Login
+            remoteDb={remoteDb}
+            loggedIn={loggedIn}
+            handleLogin={this.setLoggedIn}
+          />
+        )}
+      </div>
     );
   };
 
   LogoutWrapper = () => {
     const { remoteDb, loggedIn } = this.state;
     return (
-      <Logout
-        remoteDb={remoteDb}
-        loggedIn={loggedIn}
-        handleLogout={this.setLoggedOut}
-      />
+      <div>
+        {remoteDb && (
+          <Logout
+            remoteDb={remoteDb}
+            loggedIn={loggedIn}
+            handleLogout={this.setLoggedOut}
+          />
+        )}
+      </div>
     );
   };
 
   CreateUserWrapper = () => {
     const { remoteDb, loggedIn } = this.state;
-    return <Signup remoteDb={remoteDb} loggedIn={loggedIn} />;
+    return (
+      <div>
+        {remoteDb && <Signup remoteDb={remoteDb} loggedIn={loggedIn} />}
+      </div>
+    );
   };
-
-  newHomeAdded = flatNumber => {};
 
   checkSession = () => {
     const db = this.state.remoteDb;
     if (db) {
       db.getSession((err, response) => {
         let admin = false;
-        let loggedIn = false;
+        let loggedIn = true;
         if (err) {
           console.debug('No one logged in error', err);
-          this.setLoggedOut();
-          return false;
+          loggedIn = false;
         } else if (!response.userCtx.name) {
           console.debug('No one logged in', response);
-          this.setLoggedOut();
-          return false;
+
+          loggedIn = false;
         } else {
           console.debug(response.userCtx.name, 'is logged in.');
           this.setupLocalPouchDB();

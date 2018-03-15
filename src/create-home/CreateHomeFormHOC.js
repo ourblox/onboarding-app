@@ -6,12 +6,13 @@ export default ComposedComponent =>
       super();
       this.state = {
         rev: null,
-        previousAnswers: {}
+        previousAnswers: {},
+        ready: false,
+        displayFields: true
       };
     }
 
     updateRev = rev => {
-      console.log('updating rev', rev);
       this.setState({
         rev: rev
       });
@@ -22,7 +23,6 @@ export default ComposedComponent =>
       const flatNumber = this.props.flatNumber;
       const buildingNameAsID = buildingName.replace(/\s+/g, '-').toLowerCase();
       const documentId = `${flatNumber}-${buildingNameAsID}`;
-
       this.props.db
         .get(documentId)
         .then(doc => {
@@ -56,23 +56,63 @@ export default ComposedComponent =>
           }
         });
     }
+
+    setHiddenFields = () => {
+      this.setState({
+        displayFields: false
+      });
+    };
+
+    updatePreviousAnswers = () => {
+      const buildingName = this.props.buildingName;
+      const flatNumber = this.props.flatNumber;
+      const buildingNameAsID = buildingName.replace(/\s+/g, '-').toLowerCase();
+      const documentId = `${flatNumber}-${buildingNameAsID}`;
+      this.props.db
+        .get(documentId)
+        .then(doc => {
+          if (doc) {
+            this.setState({
+              previousAnswers: doc,
+              displayFields: true
+            });
+
+            if (doc._rev) {
+              this.setState({
+                rev: doc._rev
+              });
+            }
+          } else {
+            this.setState({
+              displayFields: true
+            });
+          }
+        })
+        .catch(err => console.debug(err));
+    };
+
     render() {
-      console.log(this.state);
       const {
         previousAnswers,
         flatAndBuilding,
         documentId,
         rev,
-        checked
+        checked,
+        ready,
+        displayFields
       } = this.state;
       return (
         <ComposedComponent
           checked={checked}
           updateRev={this.updateRev}
           rev={rev}
+          updatePreviousAnswers={this.updatePreviousAnswers}
           previousAnswers={previousAnswers}
           flatAndBuilding={flatAndBuilding}
           documentId={documentId}
+          displayFields={displayFields}
+          setHiddenFields={this.setHiddenFields}
+          buildingName={this.props.buildingName}
           db={this.props.db}
         />
       );
