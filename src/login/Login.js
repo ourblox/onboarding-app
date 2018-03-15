@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import './Login.css';
+import { Redirect } from 'react-router-dom';
 import LoginForm from './LoginForm.js';
 
 class Login extends Component {
   logInUser = user => {
-    const db = this.props.db;
-    db.login(user.username, user.password, (err, response) => {
+    const remoteDb = this.props.remoteDb;
+    remoteDb.login(user.username, user.password, (err, response) => {
+      console.log('HELLO?');
       if (err) {
-        console.debug(err);
+        console.log(err);
         return false;
       } else {
         console.log(response);
@@ -24,11 +25,10 @@ class Login extends Component {
       <div className="Login">
         {!loggedIn && (
           <div>
-            <h2>Please Login</h2>
             <LoginForm formType="LOGIN" handleSubmit={this.logInUser} />
           </div>
         )}
-        {loggedIn && <Redirect to="/dashboard" />}
+        {loggedIn && <Redirect to="/" />}
       </div>
     );
   }

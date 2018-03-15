@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { Switch, Route, Link, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import logo from './blox.svg';
 import Dashboard from './dashboard/Dashboard';
 import CreateHome from './create-home/CreateHome';
+import MyHome from './my-home/MyHome';
 import PouchDB from 'pouchdb';
 import PDAuth from 'pouchdb-authentication';
 import Login from './login/Login';
 import Logout from './login/Logout';
 import Signup from './signup/Signup';
+import AboutBlox from './about-blox/AboutBlox';
+import NavBar from './components/nav-bar/NavBar';
 import './App.css';
 
 PouchDB.plugin(PDAuth);
@@ -15,45 +18,86 @@ PouchDB.plugin(PDAuth);
 class App extends Component {
   state = {
     buildingName: 'Charles Dickens House',
-    loggedIn: false,
+    loggedIn: true,
     admin: false,
-    db: null,
-    loginDb: null
+    remoteDb: null,
+    localDb: null
   };
 
   setLoggedIn = () => {
     this.checkSession();
     this.setState({ loggedIn: true });
+    this.setupLocalPouchDB();
   };
 
   setLoggedOut = () => {
-    this.checkSession();
     this.setState({ loggedIn: false });
   };
 
+  setupLocalPouchDB = () => {
+    const remoteDb = this.state.remoteDb;
+    const localPouch = 'ourblox';
+    const localDb = new PouchDB(localPouch, { skipSetup: true });
+    this.setState({
+      localDb: localDb
+    });
+    localDb
+      .sync(remoteDb, {
+        live: true,
+        retry: true
+      })
+      .on('change', function(change) {
+        // yo, something changed!
+        console.debug('syncing');
+      })
+      .on('paused', function(info) {
+        // replication was paused, usually because of a lost connection
+        console.debug('paused');
+      })
+      .on('active', function(info) {
+        // replication was resumed
+        console.debug('resumed');
+      })
+      .on('error', function(err) {
+        // totally unhandled error (shouldn't happen)
+      });
+  };
+
   CreateHomeWrapper = () => {
-    const { buildingName, db } = this.state;
+    const { buildingName, localDb, loggedIn } = this.state;
     return (
       <CreateHome
-        db={db}
+        db={localDb}
+        loggedIn={loggedIn}
         buildingName={buildingName}
         homeCreated={this.newHomeAdded}
       />
     );
   };
 
-  LoginWrapper = () => {
-    const { loginDb, loggedIn } = this.state;
+  MyHomeWrapper = () => {
+    const { buildingName, localDb, loggedIn } = this.state;
     return (
-      <Login db={loginDb} loggedIn={loggedIn} handleLogin={this.setLoggedIn} />
+      <MyHome db={localDb} loggedIn={loggedIn} buildingName={buildingName} />
+    );
+  };
+
+  LoginWrapper = () => {
+    const { remoteDb, loggedIn } = this.state;
+    return (
+      <Login
+        remoteDb={remoteDb}
+        loggedIn={loggedIn}
+        handleLogin={this.setLoggedIn}
+      />
     );
   };
 
   LogoutWrapper = () => {
-    const { loginDb, loggedIn } = this.state;
+    const { remoteDb, loggedIn } = this.state;
     return (
       <Logout
-        db={loginDb}
+        remoteDb={remoteDb}
         loggedIn={loggedIn}
         handleLogout={this.setLoggedOut}
       />
@@ -61,59 +105,54 @@ class App extends Component {
   };
 
   CreateUserWrapper = () => {
-    const { loginDb } = this.state;
-    return <Signup db={loginDb} />;
+    const { remoteDb, loggedIn } = this.state;
+    return <Signup remoteDb={remoteDb} loggedIn={loggedIn} />;
   };
 
   newHomeAdded = flatNumber => {};
 
-  checkSession = loginDb => {
-    const db = loginDb ? loginDb : this.state.loginDb;
-    db.getSession((err, response) => {
-      let admin = false;
-      let loggedIn = false;
-      if (err) {
-        console.debug('No one logged in error', err);
-        return false;
-      } else if (!response.userCtx.name) {
-        console.debug('No one logged in', response);
-        return false;
-      } else {
-        console.log(response.userCtx.name, 'is logged in.');
-        loggedIn = true;
-        let role = response.userCtx.roles[0];
-        if (role) {
-          role = role.toString();
+  checkSession = () => {
+    const db = this.state.remoteDb;
+    if (db) {
+      db.getSession((err, response) => {
+        let admin = false;
+        let loggedIn = false;
+        if (err) {
+          console.debug('No one logged in error', err);
+          this.setLoggedOut();
+          return false;
+        } else if (!response.userCtx.name) {
+          console.debug('No one logged in', response);
+          this.setLoggedOut();
+          return false;
+        } else {
+          console.debug(response.userCtx.name, 'is logged in.');
+          this.setupLocalPouchDB();
+          loggedIn = true;
+          let role = response.userCtx.roles[0];
+          if (role) {
+            role = role.toString();
+            if (role.indexOf('admin') > -1) {
+              admin = true;
+            }
+          }
         }
-        if (role === 'admin') {
-          admin = true;
-        }
-      }
-      this.setState({
-        loggedIn: loggedIn,
-        admin: admin
+        this.setState({
+          loggedIn: loggedIn,
+          admin: admin
+        });
       });
-    });
+    }
   };
 
   componentDidMount() {
-    console.log(process.env);
-    console.log(process.env.REACT_APP_COUCHDB_SERVER);
-    const loginCouch = `${process.env.REACT_APP_COUCHDB_SERVER}/bloxlogin`; // Remote for login
     const remoteCouch = `${process.env.REACT_APP_COUCHDB_SERVER}/ourblox`;
-    const localPouch = 'ourblox';
-
-    const loginDb = new PouchDB(loginCouch, { skipSetup: true });
-    loginDb.info().then(info => {
-      const db = new PouchDB(localPouch, { skipSetup: true }); // Local for information
-      this.setState({
-        db: db,
-        loginDb: loginDb
-      });
-      this.checkSession(loginDb);
-      db.info().then(info => {
-        PouchDB.sync(localPouch, remoteCouch);
-      });
+    const db = new PouchDB(remoteCouch, { skipSetup: true });
+    this.setState({
+      remoteDb: db
+    });
+    db.info().then(info => {
+      this.checkSession();
     });
   }
 
@@ -124,76 +163,14 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="Blox" />
         </header>
-        {loggedIn &&
-          !admin && (
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/">Dashboard</Link>
-                </li>
-                <li>
-                  <Link to="/my-home">My Home</Link>
-                </li>
-                <li>
-                  <Link to="/logout">Logout</Link>
-                </li>
-              </ul>
-            </nav>
-          )}
-        {loggedIn &&
-          admin && (
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/">Dashboard</Link>
-                </li>
-                <li>
-                  <Link to="/add-home">Add Home</Link>
-                </li>
-                <li>
-                  <Link to="/add-user">Add User</Link>
-                </li>
-                <li>
-                  <Link to="/logout">Logout</Link>
-                </li>
-              </ul>
-            </nav>
-          )}
-
+        <NavBar loggedIn={loggedIn} admin={admin} />
         <Switch>
-          <Route
-            exact
-            path="/"
-            render={() =>
-              !loggedIn ? <Redirect to="/login" /> : <Dashboard />
-            }
-          />
-          {/* <Route exact path='/' component={Dashboard}/> */}
+          <Route exact path="/" component={Dashboard} />
+          <Route path="/about-blox" component={AboutBlox} />
           <Route path="/login" component={this.LoginWrapper} />
-          <Route
-            path="/add-home"
-            render={() => {
-              const CreateHomeWrapper = this.CreateHomeWrapper;
-              return !loggedIn ? (
-                <Redirect to="/login" />
-              ) : (
-                <CreateHomeWrapper />
-              );
-            }}
-          />
-
-          <Route
-            path="/add-user"
-            render={() => {
-              const CreateUserWrapper = this.CreateUserWrapper;
-              return !loggedIn ? (
-                <Redirect to="/login" />
-              ) : (
-                <CreateUserWrapper />
-              );
-            }}
-          />
-
+          <Route path="/add-home" component={this.CreateHomeWrapper} />
+          <Route path="/my-home" component={this.MyHomeWrapper} />
+          <Route path="/add-user" component={this.CreateUserWrapper} />
           <Route
             path="/logout"
             render={() => {

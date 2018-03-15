@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 class Logout extends Component {
   componentDidMount = () => {
-    this.props.db.logout((err, response) => {
+    this.props.remoteDb.logout((err, response) => {
       if (err) {
         console.debug(err);
       } else {

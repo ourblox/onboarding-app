@@ -1,0 +1,32 @@
+.NavBar:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.NavBar ul {
+  list-style: none;
+  padding: 0;
+  float: left;
+  width: 100%;
+  text-align: center;
+  border-top: 1px dotted rgba(255, 255, 255, 0.5);
+}
+
+.NavBar li {
+  list-style: none;
+  display: inline-block;
+}
+
+.NavBar li a {
+  display: block;
+  padding: 8px 0 4px;
+  margin: 0.5rem;
+  color: white;
+  text-decoration: none;
+  border-bottom: 1px dashed white;
+}
+
+.NavBar li a.active {
+  border-bottom: 1px solid white;
+}

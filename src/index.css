@@ -3,6 +3,17 @@
   src: url('./fonts/WorkSans-SemiBold.woff2') format('woff2'),
     url('./fonts/WorkSans-SemiBold.woff') format('woff');
 }
+
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -11,4 +22,49 @@ body {
   height: 100%;
   font-family: 'Work Sans Semi Bold', Helvetica, sans-serif;
   color: white;
+}
+
+form input,
+form textarea,
+form checkbox,
+form radio,
+form select,
+form button {
+  font-size: 16px;
+  font-family: 'Work Sans Semi Bold', Helvetica, sans-serif;
+}
+
+form input {
+  margin-bottom: 16px;
+  padding: 1rem;
+}
+
+form label {
+  display: block;
+}
+
+form button {
+  cursor: pointer;
+  margin: auto;
+  background: none;
+  border: 1px solid white;
+  color: white;
+  padding: 0.75rem 1rem;
+}
+
+.ContentContainer {
+  margin: 0 16px;
+}
+
+.BoxContainer {
+  margin: 0 32px;
+  border: 1px dashed white;
+  padding: 1rem;
+  background: #777677;
+}
+
+.BoxContainer:after {
+  content: '';
+  display: table;
+  clear: both;
 }

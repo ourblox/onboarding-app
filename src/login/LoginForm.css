@@ -1,0 +1,7 @@
+.LoginForm input {
+  width: 100%;
+}
+
+.LoginForm button {
+  float: right;
+}

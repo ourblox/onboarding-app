@@ -10,6 +10,7 @@
   margin: auto;
   color: white;
   font-size: 3rem;
+  border-left: none !important;
 }
 
 .EnterNumber::placeholder {

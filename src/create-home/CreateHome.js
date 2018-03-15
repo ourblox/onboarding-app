@@ -1,65 +1,56 @@
 import React, { Component } from 'react';
-import { Form, Text } from 'react-form';
+import { Form } from 'react-form';
+import CreateHomeForm from './CreateHomeForm';
+import { Redirect } from 'react-router-dom';
 import EnterNumber from '../components/enter-number/EnterNumber';
+
 import './CreateHome.css';
 
 class CreateHome extends Component {
   state = {
     formBegun: false,
-    title: 'Add new home'
-  };
-
-  createHome = e => {
-    console.log(e);
+    flatNumber: 0
   };
 
   handleBegin(submittedValues) {
     if (submittedValues.flatNumber) {
-      this.props.db.post(submittedValues);
       this.setState({
         formBegun: true,
-        title: submittedValues.flatNumber + ' ' + this.props.buildingName
+        flatNumber: submittedValues.flatNumber
       });
     }
   }
 
-  handleSubmit(submittedValues) {
-    if (submittedValues) {
-      this.props.db.post(submittedValues);
-    }
-  }
-
   render() {
-    const { title, formBegun } = this.state;
+    const { formBegun, flatNumber } = this.state;
+    const { buildingName } = this.props;
     return (
-      <div className="CreateHome">
-        <h2>{title}</h2>
+      <div className="CreateHome ContentContainer">
+        {!this.props.loggedIn && <Redirect to="/login" />}
+
         {!formBegun && (
-          <Form onSubmit={submittedValues => this.handleBegin(submittedValues)}>
-            {formApi => (
-              <form className="CreateHome-form" onSubmit={formApi.submitForm}>
-                <EnterNumber field="flatNumber" placeholder="Flat number" />
-                <button className="CreateHome-submitButton" type="submit">
-                  Begin
-                </button>
-              </form>
-            )}
-          </Form>
+          <div className="BoxContainer">
+            <h3>Add new home</h3>
+            <Form
+              onSubmit={submittedValues => this.handleBegin(submittedValues)}
+            >
+              {formApi => (
+                <form className="CreateHome-form" onSubmit={formApi.submitForm}>
+                  <EnterNumber field="flatNumber" placeholder="Flat number" />
+                  <button className="CreateHome-submitButton" type="submit">
+                    Begin
+                  </button>
+                </form>
+              )}
+            </Form>
+          </div>
         )}
         {formBegun && (
-          <Form
-            onSubmit={submittedValues => this.handleSubmit(submittedValues)}
-          >
-            {formApi => (
-              <form className="CreateHome-form" onSubmit={formApi.submitForm}>
-                <label>Your monthly bill</label>
-                <Text field="monthlyBill" placeholder="£ per month" />
-                <button className="CreateHome-submitButton" type="submit">
-                  Submit
-                </button>
-              </form>
-            )}
-          </Form>
+          <CreateHomeForm
+            db={this.props.db}
+            flatNumber={flatNumber}
+            buildingName={buildingName}
+          />
         )}
       </div>
     );

@@ -1,23 +1,29 @@
 import React, { Component } from 'react';
 import { Form, Text } from 'react-form';
-import EnterNumber from '../components/enter-number/EnterNumber';
+import './LoginForm.css';
+
 class LoginForm extends Component {
   render() {
     const { handleSubmit, formType } = this.props;
     return (
-      <div className="signup-container">
+      <div className="LoginForm BoxContainer">
+        <h3>
+          {formType === 'SIGN_UP'
+            ? 'Create new account'
+            : 'Your login details are on the card we gave you'}
+        </h3>
         <Form onSubmit={handleSubmit}>
           {formApi => (
             <form onSubmit={formApi.submitForm}>
               <div className="signup-username">
-                <EnterNumber placeholder="Username" field="username" />
+                <Text placeholder="Username" field="username" />
               </div>
               <div className="signup-password">
-                <Text placeholder="Password" field="password" />
+                <Text placeholder="Password" field="password" type="password" />
               </div>
               <div className="signup-buttons">
                 <button onClick={handleSubmit}>
-                  {formType === 'SIGN_UP' ? 'Sign Up' : 'Login'}
+                  {formType === 'SIGN_UP' ? 'Sign Up' : 'Go'}
                 </button>
               </div>
             </form>

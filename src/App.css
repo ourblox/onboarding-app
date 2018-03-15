@@ -1,15 +1,19 @@
 .App {
   text-align: center;
+  width: 95%;
+  margin: auto;
+  max-width: 500px;
+  border-right: 1px dotted rgba(255, 255, 255, 0.5);
+  border-left: 1px dotted rgba(255, 255, 255, 0.5);
+  min-height: 100%;
 }
 
 .App-logo {
   height: 80px;
-  margin: 60px 0 60px;
+  margin: 26px 0 16px;
 }
 
 .App-header {
-  height: 150px;
-  padding: 20px;
 }
 
 .App-title {
