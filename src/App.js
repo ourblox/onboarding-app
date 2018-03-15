@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import logo from './blox.svg';
 import Dashboard from './dashboard/Dashboard';
 import CreateHome from './create-home/CreateHome';
@@ -35,32 +35,34 @@ class App extends Component {
   };
 
   setupLocalPouchDB = () => {
-    const remoteDb = this.state.remoteDb;
-    const localPouch = 'ourblox';
-    const localDb = new PouchDB(localPouch, { skipSetup: true });
-    this.setState({
-      localDb: localDb
-    });
-    localDb
-      .sync(remoteDb, {
-        live: true,
-        retry: true
-      })
-      .on('change', function(change) {
-        // yo, something changed!
-        console.debug('syncing');
-      })
-      .on('paused', function(info) {
-        // replication was paused, usually because of a lost connection
-        console.debug('paused');
-      })
-      .on('active', function(info) {
-        // replication was resumed
-        console.debug('resumed');
-      })
-      .on('error', function(err) {
-        // totally unhandled error (shouldn't happen)
+    if (!this.state.localDb) {
+      const remoteDb = this.state.remoteDb;
+      const localPouch = 'ourblox';
+      const localDb = new PouchDB(localPouch, { skipSetup: true });
+      this.setState({
+        localDb: localDb
       });
+      localDb
+        .sync(remoteDb, {
+          live: true,
+          retry: true
+        })
+        .on('change', function(change) {
+          // yo, something changed!
+          console.debug('syncing');
+        })
+        .on('paused', function(info) {
+          // replication was paused, usually because of a lost connection
+          console.debug('paused');
+        })
+        .on('active', function(info) {
+          // replication was resumed
+          console.debug('resumed');
+        })
+        .on('error', function(err) {
+          // totally unhandled error (shouldn't happen)
+        });
+    }
   };
 
   CreateHomeWrapper = () => {
@@ -171,13 +173,7 @@ class App extends Component {
           <Route path="/add-home" component={this.CreateHomeWrapper} />
           <Route path="/my-home" component={this.MyHomeWrapper} />
           <Route path="/add-user" component={this.CreateUserWrapper} />
-          <Route
-            path="/logout"
-            render={() => {
-              const LogoutWrapper = this.LogoutWrapper;
-              return !loggedIn ? <Redirect to="/login" /> : <LogoutWrapper />;
-            }}
-          />
+          <Route path="/logout" component={this.LogoutWrapper} />
         </Switch>
       </div>
     );
