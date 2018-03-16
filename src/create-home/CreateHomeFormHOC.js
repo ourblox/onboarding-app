@@ -7,7 +7,6 @@ export default ComposedComponent =>
       this.state = {
         rev: null,
         previousAnswers: {},
-        ready: false,
         displayFields: true
       };
     }
@@ -22,7 +21,8 @@ export default ComposedComponent =>
       const buildingName = this.props.buildingName;
       const flatNumber = this.props.flatNumber;
       const buildingNameAsID = buildingName.replace(/\s+/g, '-').toLowerCase();
-      const documentId = `${flatNumber}-${buildingNameAsID}`;
+      const buildingSlug = this.props.buildingSlug;
+      const documentId = `${buildingSlug}-${flatNumber}-${buildingNameAsID}`;
       this.props.db
         .get(documentId)
         .then(doc => {
@@ -32,7 +32,8 @@ export default ComposedComponent =>
               flatAndBuilding: `${flatNumber} ${buildingName}`,
               documentId: documentId,
               previousAnswers: doc,
-              checked: true
+              checked: true,
+              buildingSlug: buildingSlug
             });
             if (doc._rev) {
               this.setState({
@@ -51,7 +52,8 @@ export default ComposedComponent =>
               flatNumber: flatNumber,
               flatAndBuilding: `${flatNumber} ${buildingName}`,
               documentId: documentId,
-              checked: true
+              checked: true,
+              buildingSlug: buildingSlug
             });
           }
         });
@@ -64,10 +66,12 @@ export default ComposedComponent =>
     };
 
     updatePreviousAnswers = () => {
+      // This stuff appears in componentDidMount and should be abstracted
       const buildingName = this.props.buildingName;
+      const buildingSlug = this.props.buildingSlug;
       const flatNumber = this.props.flatNumber;
       const buildingNameAsID = buildingName.replace(/\s+/g, '-').toLowerCase();
-      const documentId = `${flatNumber}-${buildingNameAsID}`;
+      const documentId = `${buildingSlug}-${flatNumber}-${buildingNameAsID}`;
       this.props.db
         .get(documentId)
         .then(doc => {
@@ -98,8 +102,8 @@ export default ComposedComponent =>
         documentId,
         rev,
         checked,
-        ready,
-        displayFields
+        displayFields,
+        buildingSlug
       } = this.state;
       return (
         <ComposedComponent
@@ -113,6 +117,7 @@ export default ComposedComponent =>
           displayFields={displayFields}
           setHiddenFields={this.setHiddenFields}
           buildingName={this.props.buildingName}
+          buildingSlug={buildingSlug}
           db={this.props.db}
         />
       );

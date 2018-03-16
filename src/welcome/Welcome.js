@@ -6,13 +6,17 @@ class Welcome extends Component {
   componentDidMount = () => {
     this.props.setBuildingName('reset');
   };
+  componentWillUnmount = () => {
+    if (this.props.buildingSlug) {
+      this.props.setBuildingName(this.props.buildingSlug);
+    }
+  };
   render() {
     return (
       <div className="Welcome ContentContainer">
         <p>
-          Blox is the social network for buildings. Our first tool is Blox Pool,
-          enabling people to save money on their energy by working together to
-          bargain collectively.
+          Our first tool is Blox Pool, enabling people to save money on their
+          energy by working together to bargain collectively.
         </p>
         <p>
           We are running pilot projects at the following addresses. If you have

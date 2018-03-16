@@ -19,6 +19,7 @@
   border-bottom: 1px dashed white;
   border-left: 1px dashed white;
   margin-bottom: 32px;
+  margin-top: 0;
 }
 
 .CreateHome-form input::placeholder {

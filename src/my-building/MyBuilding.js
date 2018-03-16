@@ -30,11 +30,12 @@ class MyBuilding extends Component {
           handle the switching. We expect you to save quite a bit of money.{' '}
         </p>
         <p>
-          If you met one of our team, they’ll have told you what to do. Please
-          do it! If you received a card, you can{' '}
-          <Link to="/blox-faqs">browse our FAQs</Link> and then{' '}
+          If you received a card, please{' '}
           <Link to="/login">login using the details on the card</Link> and input
           your current energy details. We will handle the rest!
+        </p>
+        <p>
+          Questions? please <Link to="/blox-faqs">browse our FAQs</Link>{' '}
         </p>
       </div>
     );

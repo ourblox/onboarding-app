@@ -5,14 +5,14 @@ import './NavBar.css';
 class NavBar extends Component {
   render() {
     const { loggedIn, admin, buildingSlug } = this.props;
-    const slugURl = `/${buildingSlug}`;
+    const slugURL = `/${buildingSlug}`;
     return (
       <nav className="NavBar">
         {!loggedIn && (
           <ul>
             {buildingSlug && (
               <li>
-                <NavLink exact to={slugURl}>
+                <NavLink exact to={slugURL}>
                   My Blox
                 </NavLink>
               </li>
@@ -56,7 +56,7 @@ class NavBar extends Component {
           admin && (
             <ul>
               <li>
-                <NavLink exact to="/">
+                <NavLink exact to="/dashboard">
                   Dashboard
                 </NavLink>
               </li>

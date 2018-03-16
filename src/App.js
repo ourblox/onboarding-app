@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, NavLink } from 'react-router-dom';
+import { Switch, Route, NavLink, Redirect } from 'react-router-dom';
 import logo from './blox.svg';
 import Dashboard from './dashboard/Dashboard';
 import Welcome from './welcome/Welcome';
@@ -24,6 +24,7 @@ const Buildings = {
 class App extends Component {
   state = {
     buildingName: 'The Social Network for Buildings',
+    buildingSlug: null,
     loggedIn: true,
     admin: false,
     remoteDb: null,
@@ -31,12 +32,12 @@ class App extends Component {
   };
 
   setBuildingName = buildingSlug => {
-    localStorage.setItem('buildingSlug', buildingSlug);
     if (buildingSlug === 'reset') {
       this.setState({
         buildingName: 'The social network for buildings'
       });
     } else if (buildingSlug) {
+      localStorage.setItem('buildingSlug', buildingSlug);
       this.setState({
         buildingName: Buildings[buildingSlug],
         buildingSlug: buildingSlug
@@ -87,21 +88,36 @@ class App extends Component {
   };
 
   DashboardWrapper = props => {
-    const { buildingName } = this.state;
-    return <Dashboard {...this.props} buildingName={buildingName} />;
+    const { buildingName, buildingSlug, localDb, loggedIn } = this.state;
+    return (
+      <div>
+        {localDb && (
+          <Dashboard
+            {...this.props}
+            loggedIn={loggedIn}
+            buildingName={buildingName}
+            buildingSlug={buildingSlug}
+            db={localDb}
+          />
+        )}
+        {!localDb && !loggedIn && <Redirect to="/login" />}
+      </div>
+    );
   };
 
   CreateHomeWrapper = () => {
-    const { buildingName, localDb, loggedIn } = this.state;
+    const { buildingName, localDb, loggedIn, buildingSlug } = this.state;
     return (
       <div>
         {localDb && (
           <CreateHome
             db={localDb}
             loggedIn={loggedIn}
+            buildingSlug={buildingSlug}
             buildingName={buildingName}
           />
         )}
+        {!localDb && !loggedIn && <Redirect to="/login" />}
       </div>
     );
   };
@@ -117,17 +133,18 @@ class App extends Component {
             buildingName={buildingName}
           />
         )}
+        {!localDb && !loggedIn && <Redirect to="/login" />}
       </div>
     );
   };
 
   WelcomeWrapper = props => {
-    const { buildingName } = this.state;
+    const { buildingSlug } = this.state;
     return (
       <div>
         <Welcome
           {...props}
-          buildingName={buildingName}
+          buildingSlug={buildingSlug}
           setBuildingName={this.setBuildingName}
         />
       </div>
@@ -182,6 +199,7 @@ class App extends Component {
     return (
       <div>
         {remoteDb && <Signup remoteDb={remoteDb} loggedIn={loggedIn} />}
+        {!remoteDb && !loggedIn && <Redirect to="/login" />}
       </div>
     );
   };

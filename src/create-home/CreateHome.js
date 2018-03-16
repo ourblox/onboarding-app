@@ -23,9 +23,9 @@ class CreateHome extends Component {
 
   render() {
     const { formBegun, flatNumber } = this.state;
-    const { buildingName } = this.props;
+    const { buildingName, buildingSlug } = this.props;
     return (
-      <div className="CreateHome ContentContainer">
+      <div className="CreateHome">
         {!this.props.loggedIn && <Redirect to="/login" />}
 
         {!formBegun && (
@@ -45,13 +45,17 @@ class CreateHome extends Component {
             </Form>
           </div>
         )}
-        {formBegun && (
-          <CreateHomeForm
-            db={this.props.db}
-            flatNumber={flatNumber}
-            buildingName={buildingName}
-          />
-        )}
+        {formBegun &&
+          buildingSlug && (
+            <div className="ContentContainer">
+              <CreateHomeForm
+                db={this.props.db}
+                flatNumber={flatNumber}
+                buildingName={buildingName}
+                buildingSlug={buildingSlug}
+              />
+            </div>
+          )}
       </div>
     );
   }

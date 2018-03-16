@@ -58,6 +58,13 @@ button {
   margin-top: 1em;
 }
 
+p,
+li,
+dt,
+dd {
+  font-size: 1.3rem;
+}
+
 input {
   padding: 1rem;
 }

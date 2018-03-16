@@ -14,8 +14,11 @@ class CreateHomeForm extends Component {
   };
 
   handleSubmit = submittedValues => {
+    const buildingSlug = this.props.buildingSlug;
     if (submittedValues) {
       submittedValues._id = this.props.documentId;
+      submittedValues.type = 'buildingRecord';
+      submittedValues.buildingId = buildingSlug;
       if (this.props.rev) {
         submittedValues._rev = this.props.rev;
       }
@@ -25,12 +28,13 @@ class CreateHomeForm extends Component {
           this.props.updateRev(response.rev);
           this.props.setHiddenFields();
         })
-        .catch(err => console.log(err));
+        .catch(err => console.debug(err));
     }
   };
 
   render() {
-    const { displayFields, previousAnswers } = this.props;
+    const { displayFields, previousAnswers, buildingSlug } = this.props;
+    console.log(buildingSlug);
     if (!this.props.checked) return <div>Waiting</div>;
     return (
       <div>

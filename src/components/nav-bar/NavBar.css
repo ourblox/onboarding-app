@@ -20,6 +20,9 @@
 .NavBar li {
   list-style: none;
   display: inline-block;
+  font-size: 1rem;
+  text-transform: uppercase;
+  margin: 0;
 }
 
 .NavBar li a {
