@@ -1,6 +1,6 @@
 .CreateHome-form input,
 .CreateHome-form button {
-  font-family: 'Work Sans Semi Bold', Helvetica, sans-serif;
+  font-family: var(--font-family-A);
 }
 
 .CreateHome-form label {

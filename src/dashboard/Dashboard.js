@@ -3,10 +3,11 @@ import './Dashboard.css';
 
 class Dashboard extends Component {
   render() {
+    const { buildingName } = this.props;
     return (
       <div className="Dashboard">
         <p>
-          We’re aiming to get everyone in this building onto the same energy
+          We’re aiming to get everyone in {buildingName} onto the same energy
           provider. We’re doing this to save everyone money.
         </p>
       </div>

@@ -4,29 +4,43 @@ import './NavBar.css';
 
 class NavBar extends Component {
   render() {
-    const { loggedIn, admin } = this.props;
+    const { loggedIn, admin, buildingSlug } = this.props;
+    const slugURl = `/${buildingSlug}`;
     return (
       <nav className="NavBar">
         {!loggedIn && (
           <ul>
+            {buildingSlug && (
+              <li>
+                <NavLink exact to={slugURl}>
+                  My Blox
+                </NavLink>
+              </li>
+            )}
+
+            {!buildingSlug && (
+              <li>
+                <NavLink exact to="/">
+                  Home
+                </NavLink>
+              </li>
+            )}
+
             <li>
-              <NavLink exact to="/">
-                Dashboard
-              </NavLink>
+              <NavLink to="/blox-faqs">FAQs</NavLink>
             </li>
-            <li>
-              <NavLink to="/about-blox">About</NavLink>
-            </li>
-            <li>
-              <NavLink to="/login">Login</NavLink>
-            </li>
+            {buildingSlug && (
+              <li>
+                <NavLink to="/login">Login</NavLink>
+              </li>
+            )}
           </ul>
         )}
         {loggedIn &&
           !admin && (
             <ul>
               <li>
-                <NavLink exact to="/">
+                <NavLink exact to="/dashboard">
                   Dashboard
                 </NavLink>
               </li>

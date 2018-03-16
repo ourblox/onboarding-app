@@ -28,7 +28,7 @@ class Login extends Component {
             <LoginForm formType="LOGIN" handleSubmit={this.logInUser} />
           </div>
         )}
-        {loggedIn && <Redirect to="/" />}
+        {loggedIn && <Redirect to="/dashboard" />}
       </div>
     );
   }

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import './AboutBlox.css';
+import './BloxFAQs.css';
 
-class AboutBlox extends Component {
+class BloxFAQs extends Component {
   render() {
     return (
-      <div className="AboutBlox">
-        <h2>FAQs</h2>
+      <div className="BloxFAQs ContentContainer">
         <dl>
           <dt>Why are you doing this?</dt>
 
@@ -70,4 +69,4 @@ class AboutBlox extends Component {
   }
 }
 
-export default AboutBlox;
+export default BloxFAQs;

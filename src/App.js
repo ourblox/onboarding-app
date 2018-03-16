@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import logo from './blox.svg';
 import Dashboard from './dashboard/Dashboard';
+import Welcome from './welcome/Welcome';
+import MyBuilding from './my-building/MyBuilding';
 import CreateHome from './create-home/CreateHome';
 import MyHome from './my-home/MyHome';
 import PouchDB from 'pouchdb';
@@ -9,19 +11,37 @@ import PDAuth from 'pouchdb-authentication';
 import Login from './login/Login';
 import Logout from './login/Logout';
 import Signup from './signup/Signup';
-import AboutBlox from './about-blox/AboutBlox';
+import BloxFAQs from './blox-faqs/BloxFAQs';
 import NavBar from './components/nav-bar/NavBar';
 import './App.css';
 
 PouchDB.plugin(PDAuth);
 
+const Buildings = {
+  cdh: 'Charles Dickens House'
+};
+
 class App extends Component {
   state = {
-    buildingName: 'Charles Dickens House',
+    buildingName: 'The Social Network for Buildings',
     loggedIn: true,
     admin: false,
     remoteDb: null,
     localDb: null
+  };
+
+  setBuildingName = buildingSlug => {
+    localStorage.setItem('buildingSlug', buildingSlug);
+    if (buildingSlug === 'reset') {
+      this.setState({
+        buildingName: 'The social network for buildings'
+      });
+    } else if (buildingSlug) {
+      this.setState({
+        buildingName: Buildings[buildingSlug],
+        buildingSlug: buildingSlug
+      });
+    }
   };
 
   setLoggedIn = () => {
@@ -66,6 +86,11 @@ class App extends Component {
     }
   };
 
+  DashboardWrapper = props => {
+    const { buildingName } = this.state;
+    return <Dashboard {...this.props} buildingName={buildingName} />;
+  };
+
   CreateHomeWrapper = () => {
     const { buildingName, localDb, loggedIn } = this.state;
     return (
@@ -92,6 +117,32 @@ class App extends Component {
             buildingName={buildingName}
           />
         )}
+      </div>
+    );
+  };
+
+  WelcomeWrapper = props => {
+    const { buildingName } = this.state;
+    return (
+      <div>
+        <Welcome
+          {...props}
+          buildingName={buildingName}
+          setBuildingName={this.setBuildingName}
+        />
+      </div>
+    );
+  };
+
+  MyBuildingWrapper = props => {
+    const { buildingName } = this.state;
+    return (
+      <div>
+        <MyBuilding
+          {...props}
+          buildingName={buildingName}
+          setBuildingName={this.setBuildingName}
+        />
       </div>
     );
   };
@@ -169,6 +220,11 @@ class App extends Component {
   };
 
   componentDidMount() {
+    if (localStorage.getItem('buildingSlug')) {
+      const buildingSlug = localStorage.getItem('buildingSlug');
+      this.setBuildingName(buildingSlug);
+    }
+
     const remoteCouch = `${process.env.REACT_APP_COUCHDB_SERVER}/ourblox`;
     const db = new PouchDB(remoteCouch, { skipSetup: true });
     this.setState({
@@ -180,23 +236,30 @@ class App extends Component {
   }
 
   render() {
-    const { loggedIn, admin } = this.state;
+    const { loggedIn, admin, buildingName, buildingSlug } = this.state;
     return (
       <div className="App">
         <header className="App-header">
           <NavLink to="/">
             <img src={logo} className="App-logo" alt="Blox" />
           </NavLink>
+          <h2 className="App-BuildingName">{buildingName}</h2>
         </header>
-        <NavBar loggedIn={loggedIn} admin={admin} />
+        <NavBar loggedIn={loggedIn} admin={admin} buildingSlug={buildingSlug} />
         <Switch>
-          <Route path="/about-blox" component={AboutBlox} />
+          <Route path="/dashboard" component={this.DashboardWrapper} />
+          <Route path="/blox-faqs" component={BloxFAQs} />
           <Route path="/login" component={this.LoginWrapper} />
           <Route path="/add-home" component={this.CreateHomeWrapper} />
           <Route path="/my-home" component={this.MyHomeWrapper} />
           <Route path="/add-user" component={this.CreateUserWrapper} />
           <Route path="/logout" component={this.LogoutWrapper} />
-          <Route exact path="/:houseName?/" component={Dashboard} />
+          <Route exact path="/" component={this.WelcomeWrapper} />
+          <Route
+            exact
+            path="/:buildingName?/"
+            component={this.MyBuildingWrapper}
+          />
         </Switch>
       </div>
     );
