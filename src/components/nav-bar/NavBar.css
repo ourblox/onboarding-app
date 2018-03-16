@@ -4,6 +4,10 @@
   clear: both;
 }
 
+.NavBar {
+  margin-top: 0;
+}
+
 .NavBar ul {
   list-style: none;
   padding: 0;

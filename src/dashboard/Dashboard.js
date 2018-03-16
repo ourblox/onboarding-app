@@ -5,7 +5,10 @@ class Dashboard extends Component {
   render() {
     return (
       <div className="Dashboard">
-        <h2>Welcome to Blox</h2>
+        <p>
+          We’re aiming to get everyone in this building onto the same energy
+          provider. We’re doing this to save everyone money.
+        </p>
       </div>
     );
   }

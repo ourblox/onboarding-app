@@ -10,6 +10,11 @@ class NavBar extends Component {
         {!loggedIn && (
           <ul>
             <li>
+              <NavLink exact to="/">
+                Dashboard
+              </NavLink>
+            </li>
+            <li>
               <NavLink to="/about-blox">About</NavLink>
             </li>
             <li>

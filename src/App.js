@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, NavLink } from 'react-router-dom';
 import logo from './blox.svg';
 import Dashboard from './dashboard/Dashboard';
 import CreateHome from './create-home/CreateHome';
@@ -184,17 +184,19 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="Blox" />
+          <NavLink to="/">
+            <img src={logo} className="App-logo" alt="Blox" />
+          </NavLink>
         </header>
         <NavBar loggedIn={loggedIn} admin={admin} />
         <Switch>
-          <Route exact path="/" component={Dashboard} />
           <Route path="/about-blox" component={AboutBlox} />
           <Route path="/login" component={this.LoginWrapper} />
           <Route path="/add-home" component={this.CreateHomeWrapper} />
           <Route path="/my-home" component={this.MyHomeWrapper} />
           <Route path="/add-user" component={this.CreateUserWrapper} />
           <Route path="/logout" component={this.LogoutWrapper} />
+          <Route exact path="/:houseName?/" component={Dashboard} />
         </Switch>
       </div>
     );
