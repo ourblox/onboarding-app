@@ -28,7 +28,7 @@ body {
 
 nav li a,
 dt {
-  font-family: var(--font-family-B);
+  font-family: var(--font-family-A);
 }
 
 dt {
@@ -37,7 +37,7 @@ dt {
 
 dd {
   margin-left: 1rem;
-  font-family: var(--font-family-B);
+  font-family: var(--font-family-A);
 }
 
 input,
@@ -80,6 +80,10 @@ button {
   border: 1px solid white;
   color: white;
   padding: 0.75rem 1rem;
+}
+
+.Content {
+  margin-top: 0;
 }
 
 .ContentContainer {

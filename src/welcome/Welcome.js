@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './Welcome.css';
 
 class Welcome extends Component {
@@ -25,7 +25,7 @@ class Welcome extends Component {
         </p>
         <ul>
           <li>
-            <NavLink to="/cdh">Charles Dickens House</NavLink>
+            <NavLink to="/qbr">355 Queensbridge Road</NavLink>
           </li>
         </ul>
       </div>

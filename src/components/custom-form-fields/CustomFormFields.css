@@ -1,4 +1,5 @@
-.EnterNumber {
+.EnterNumber,
+.EnterPasscode {
   background: none;
   border: none;
   outline: none;
@@ -13,7 +14,16 @@
   border-left: none !important;
 }
 
-.EnterNumber::placeholder {
+.EnterNumber {
+  margin-bottom: 0;
+}
+
+.EnterPasscode {
+  border-bottom: none;
+}
+
+.EnterNumber::placeholder,
+.EnterPasscode::placeholder {
   color: rgba(255, 255, 255, 0.4);
   font-size: 16px;
 }

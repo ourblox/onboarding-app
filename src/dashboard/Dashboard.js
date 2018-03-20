@@ -41,7 +41,7 @@ class Dashboard extends Component {
   };
 
   render() {
-    const { buildingName, buildingSlug, loggedIn } = this.props;
+    const { buildingName } = this.props;
     const { building, signedUp } = this.state;
     return (
       <div className="Dashboard">

@@ -47,9 +47,6 @@ class NavBar extends Component {
               <li>
                 <NavLink to="/my-home">My Home</NavLink>
               </li>
-              <li>
-                <NavLink to="/logout">Logout</NavLink>
-              </li>
             </ul>
           )}
         {loggedIn &&
@@ -65,9 +62,6 @@ class NavBar extends Component {
               </li>
               <li>
                 <NavLink to="/add-user">+ User</NavLink>
-              </li>
-              <li>
-                <NavLink to="/logout">Logout</NavLink>
               </li>
             </ul>
           )}

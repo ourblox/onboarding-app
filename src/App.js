@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 import { Switch, Route, NavLink, Redirect } from 'react-router-dom';
 import logo from './blox.svg';
 import Dashboard from './dashboard/Dashboard';
@@ -10,18 +12,27 @@ import PouchDB from 'pouchdb';
 import PDAuth from 'pouchdb-authentication';
 import Login from './login/Login';
 import Logout from './login/Logout';
-import Signup from './signup/Signup';
+import Privacy from './privacy/Privacy';
+import CreateUser from './create-user/CreateUser';
 import BloxFAQs from './blox-faqs/BloxFAQs';
 import NavBar from './components/nav-bar/NavBar';
+import FooterNav from './components/nav-bar/FooterNav';
 import './App.css';
 
 PouchDB.plugin(PDAuth);
 
 const Buildings = {
-  cdh: 'Charles Dickens House'
+  cdh: 'Charles Dickens House',
+  qbr: '355 Queensbridge Rod'
 };
 
 class App extends Component {
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
+  };
+
   state = {
     buildingName: 'The Social Network for Buildings',
     buildingSlug: null,
@@ -32,11 +43,16 @@ class App extends Component {
   };
 
   setBuildingName = buildingSlug => {
-    if (buildingSlug === 'reset') {
+    if (buildingSlug === 'reset' || buildingSlug === '') {
       this.setState({
         buildingName: 'The social network for buildings'
       });
-    } else if (buildingSlug) {
+    } else if (this.props.location.pathname === '/') {
+      this.setState({
+        buildingName: 'The social network for buildings',
+        buildingSlug: buildingSlug
+      });
+    } else {
       localStorage.setItem('buildingSlug', buildingSlug);
       this.setState({
         buildingName: Buildings[buildingSlug],
@@ -108,7 +124,7 @@ class App extends Component {
   CreateHomeWrapper = () => {
     const { buildingName, localDb, loggedIn, buildingSlug } = this.state;
     return (
-      <div>
+      <div className="Content">
         {localDb && (
           <CreateHome
             db={localDb}
@@ -125,7 +141,7 @@ class App extends Component {
   MyHomeWrapper = () => {
     const { buildingName, localDb, loggedIn } = this.state;
     return (
-      <div>
+      <div className="Content">
         {localDb && (
           <MyHome
             db={localDb}
@@ -141,7 +157,7 @@ class App extends Component {
   WelcomeWrapper = props => {
     const { buildingSlug } = this.state;
     return (
-      <div>
+      <div className="Content">
         <Welcome
           {...props}
           buildingSlug={buildingSlug}
@@ -154,7 +170,7 @@ class App extends Component {
   MyBuildingWrapper = props => {
     const { buildingName } = this.state;
     return (
-      <div>
+      <div className="Content">
         <MyBuilding
           {...props}
           buildingName={buildingName}
@@ -165,13 +181,14 @@ class App extends Component {
   };
 
   LoginWrapper = () => {
-    const { remoteDb, loggedIn } = this.state;
+    const { remoteDb, loggedIn, buildingSlug } = this.state;
     return (
-      <div>
+      <div className="Content">
         {remoteDb && (
           <Login
             remoteDb={remoteDb}
             loggedIn={loggedIn}
+            buildingSlug={buildingSlug}
             handleLogin={this.setLoggedIn}
           />
         )}
@@ -182,7 +199,7 @@ class App extends Component {
   LogoutWrapper = () => {
     const { remoteDb, loggedIn } = this.state;
     return (
-      <div>
+      <div className="Content">
         {remoteDb && (
           <Logout
             remoteDb={remoteDb}
@@ -197,8 +214,8 @@ class App extends Component {
   CreateUserWrapper = () => {
     const { remoteDb, loggedIn } = this.state;
     return (
-      <div>
-        {remoteDb && <Signup remoteDb={remoteDb} loggedIn={loggedIn} />}
+      <div className="Content">
+        {remoteDb && <CreateUser remoteDb={remoteDb} loggedIn={loggedIn} />}
         {!remoteDb && !loggedIn && <Redirect to="/login" />}
       </div>
     );
@@ -242,7 +259,6 @@ class App extends Component {
       const buildingSlug = localStorage.getItem('buildingSlug');
       this.setBuildingName(buildingSlug);
     }
-
     const remoteCouch = `${process.env.REACT_APP_COUCHDB_SERVER}/ourblox`;
     const db = new PouchDB(remoteCouch, { skipSetup: true });
     this.setState({
@@ -267,6 +283,7 @@ class App extends Component {
         <Switch>
           <Route path="/dashboard" component={this.DashboardWrapper} />
           <Route path="/blox-faqs" component={BloxFAQs} />
+          <Route path="/privacy" component={Privacy} />
           <Route path="/login" component={this.LoginWrapper} />
           <Route path="/add-home" component={this.CreateHomeWrapper} />
           <Route path="/my-home" component={this.MyHomeWrapper} />
@@ -279,9 +296,16 @@ class App extends Component {
             component={this.MyBuildingWrapper}
           />
         </Switch>
+        <footer>
+          <FooterNav
+            loggedIn={loggedIn}
+            admin={admin}
+            buildingSlug={buildingSlug}
+          />
+        </footer>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

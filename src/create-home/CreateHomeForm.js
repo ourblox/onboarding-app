@@ -33,8 +33,7 @@ class CreateHomeForm extends Component {
   };
 
   render() {
-    const { displayFields, previousAnswers, buildingSlug } = this.props;
-    console.log(buildingSlug);
+    const { displayFields, previousAnswers } = this.props;
     if (!this.props.checked) return <div>Waiting</div>;
     return (
       <div>

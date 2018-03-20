@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text } from 'react-form';
-import './EnterNumber.css';
+import './CustomFormFields.css';
 
 class EnterNumber extends Component {
   render() {

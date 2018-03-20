@@ -3,20 +3,27 @@ import './Login.css';
 import { Redirect } from 'react-router-dom';
 import LoginForm from './LoginForm.js';
 
+const Admins = ['ali', 'pete', 'sam'];
 class Login extends Component {
   logInUser = user => {
-    const remoteDb = this.props.remoteDb;
-    remoteDb.login(user.username, user.password, (err, response) => {
-      console.log('HELLO?');
-      if (err) {
-        console.log(err);
-        return false;
-      } else {
-        console.log(response);
-        this.props.handleLogin();
-        return true;
+    if (user.username) {
+      const remoteDb = this.props.remoteDb;
+      const buildingSlug = this.props.buildingSlug;
+      let username = user.username.toLowerCase();
+      if (Admins.indexOf(username) < 0) {
+        username = `${username}-${buildingSlug}`;
+        console.log(username);
       }
-    });
+      remoteDb.login(username, user.password, (err, response) => {
+        if (err) {
+          console.debug(err);
+          return false;
+        } else {
+          this.props.handleLogin();
+          return true;
+        }
+      });
+    }
   };
 
   render() {

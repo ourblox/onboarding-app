@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Text } from 'react-form';
+import EnterNumber from '../components/custom-form-fields/EnterNumber';
+import EnterPasscode from '../components/custom-form-fields/EnterPasscode';
 import './LoginForm.css';
 
 class LoginForm extends Component {
@@ -9,22 +11,18 @@ class LoginForm extends Component {
       <div className="LoginForm BoxContainer">
         <h3>
           {formType === 'SIGN_UP'
-            ? 'Create new account'
-            : 'Your login details are on the card we gave you'}
+            ? 'Add new account'
+            : 'Your access details are on the card we gave you'}
         </h3>
         <Form onSubmit={handleSubmit}>
           {formApi => (
             <form onSubmit={formApi.submitForm}>
-              <div className="signup-username">
-                <Text placeholder="Username" field="username" />
-              </div>
-              <div className="signup-password">
-                <Text placeholder="Password" field="password" type="password" />
-              </div>
+              <EnterNumber placeholder="Door number" field="username" />
+
+              <EnterPasscode placeholder="Passcode" field="password" />
+
               <div className="signup-buttons">
-                <button onClick={handleSubmit}>
-                  {formType === 'SIGN_UP' ? 'Sign Up' : 'Go'}
-                </button>
+                <button onClick={handleSubmit}>Go</button>
               </div>
             </form>
           )}

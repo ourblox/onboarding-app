@@ -36,7 +36,7 @@ class CreateHome extends Component {
             >
               {formApi => (
                 <form className="CreateHome-form" onSubmit={formApi.submitForm}>
-                  <EnterNumber field="flatNumber" placeholder="Flat number" />
+                  <EnterNumber field="flatNumber" placeholder="Door number" />
                   <button className="CreateHome-submitButton" type="submit">
                     Begin
                   </button>
