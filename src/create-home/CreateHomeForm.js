@@ -324,7 +324,7 @@ class CreateHomeForm extends Component {
                         options={this.yesNoOptions}
                         defaultValue={previousAnswers.prePay}
                       />
-                      <label>Rough monthly energy bill?</label>
+                      <label>Rough monthly energy spend?</label>
                       <Text
                         field="monthlyBill"
                         placeholder="£"
