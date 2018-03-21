@@ -20,7 +20,6 @@ class CreateUser extends Component {
     if (user.username) {
       const db = this.props.remoteDb;
       const username = `${user.username}-${buildingSlug}`;
-
       db.signup(username, user.password, (err, response) => {
         if (err) {
           this.setState({
@@ -51,9 +50,8 @@ class CreateUser extends Component {
                     this.setState({
                       message: `Created user ${username} with password ${
                         user.password
-                      }. Added user to list of doorks knocked.`
+                      }. Added user to list of doors knocked.`
                     });
-                    console.log(response);
                   })
                   .catch(err => console.debug(err));
               }

@@ -40,7 +40,8 @@ class App extends Component {
     loggedIn: true,
     admin: false,
     remoteDb: null,
-    localDb: null
+    localDb: null,
+    loginDb: null
   };
 
   setBuildingName = buildingSlug => {
@@ -65,7 +66,7 @@ class App extends Component {
   setLoggedIn = () => {
     this.checkSession();
     this.setState({ loggedIn: true });
-    this.setupLocalPouchDB();
+    this.initializeAuthenticatedDB();
   };
 
   setLoggedOut = () => {
@@ -190,13 +191,13 @@ class App extends Component {
   };
 
   LoginWrapper = () => {
-    const { remoteDb, loggedIn, buildingSlug } = this.state;
+    const { loggedIn, buildingSlug, loginDb } = this.state;
     return (
       <div className="Content">
-        {remoteDb && (
+        {loginDb && (
           <Login
-            remoteDb={remoteDb}
             loggedIn={loggedIn}
+            loginDb={loginDb}
             buildingSlug={buildingSlug}
             handleLogin={this.setLoggedIn}
           />
@@ -237,7 +238,7 @@ class App extends Component {
   };
 
   checkSession = () => {
-    const db = this.state.remoteDb;
+    const db = this.state.loginDb;
     if (db) {
       db.getSession((err, response) => {
         let admin = false;
@@ -251,7 +252,7 @@ class App extends Component {
           loggedIn = false;
         } else {
           console.debug(response.userCtx.name, 'is logged in.');
-          this.setupLocalPouchDB();
+          this.initializeAuthenticatedDB();
           loggedIn = true;
           username = response.userCtx.name;
           let role = response.userCtx.roles[0];
@@ -268,20 +269,38 @@ class App extends Component {
           username: username
         });
       });
+    } else {
+      this.setState({
+        loggedIn: false,
+        admin: false,
+        username: null
+      });
     }
   };
+
+  initializeAuthenticatedDB() {
+    const remoteCouch = `${process.env.REACT_APP_COUCHDB_SERVER}/ourblox`;
+    const db = new PouchDB(remoteCouch, { skipSetup: true });
+
+    db.info().then(info => {
+      this.setState({
+        remoteDb: db
+      });
+      this.setupLocalPouchDB();
+    });
+  }
 
   componentDidMount() {
     if (localStorage.getItem('buildingSlug')) {
       const buildingSlug = localStorage.getItem('buildingSlug');
       this.setBuildingName(buildingSlug);
     }
-    const remoteCouch = `${process.env.REACT_APP_COUCHDB_SERVER}/ourblox`;
-    const db = new PouchDB(remoteCouch, { skipSetup: true });
-    this.setState({
-      remoteDb: db
-    });
+    const loginCouch = `${process.env.REACT_APP_COUCHDB_SERVER}/bloxlogin`;
+    const db = new PouchDB(loginCouch, { skipSetup: true });
     db.info().then(info => {
+      this.setState({
+        loginDb: db
+      });
       this.checkSession();
     });
   }
