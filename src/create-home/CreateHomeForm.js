@@ -15,6 +15,8 @@ class CreateHomeForm extends Component {
 
   handleSubmit = submittedValues => {
     const buildingSlug = this.props.buildingSlug;
+    alert(buildingSlug);
+    alert(submittedValues);
     if (submittedValues) {
       submittedValues._id = this.props.documentId;
       submittedValues.type = 'buildingRecord';
