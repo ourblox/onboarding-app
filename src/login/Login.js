@@ -6,7 +6,8 @@ import LoginForm from './LoginForm.js';
 const Admins = ['ali', 'pete', 'sam', 'blox_admin', 'aliblackwell'];
 class Login extends Component {
   state = {
-    message: null
+    message: null,
+    admin: false
   };
 
   dismissMessage = () => {
@@ -22,6 +23,10 @@ class Login extends Component {
       let username = user.username.toLowerCase();
       if (Admins.indexOf(username) < 0) {
         username = `${username}-${buildingSlug}`;
+      } else {
+        this.setState({
+          admin: true
+        });
       }
 
       db.login(username, user.password, (err, response) => {
@@ -41,7 +46,7 @@ class Login extends Component {
 
   render() {
     const { loggedIn } = this.props;
-    const { message } = this.state;
+    const { message, admin } = this.state;
     return (
       <div className="Login">
         {!loggedIn && (
@@ -55,7 +60,8 @@ class Login extends Component {
             <LoginForm formType="LOGIN" handleSubmit={this.logInUser} />
           </div>
         )}
-        {loggedIn && <Redirect to="/dashboard" />}
+        {loggedIn && !admin && <Redirect to="/my-home" />}
+        {loggedIn && admin && <Redirect to="/dashboard" />}
       </div>
     );
   }
