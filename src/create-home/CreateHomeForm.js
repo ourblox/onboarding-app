@@ -288,93 +288,102 @@ class CreateHomeForm extends Component {
   ];
 
   render() {
-    const { displayFields, previousAnswers } = this.props;
+    const { displayFields, previousAnswers, checked } = this.props;
+
     return (
       <div>
-        {!displayFields && (
-          <div className="BoxContainer">
-            <h3>Your details have been saved. Thank you.</h3>
-            <button onClick={this.setShowFields}>View / Edit</button>
-          </div>
-        )}
-        {displayFields && (
-          <Form
-            onSubmit={submittedValues => this.handleSubmit(submittedValues)}
-          >
-            {formApi => (
-              <div>
-                <h3>{this.props.flatAndBuilding}</h3>
-                <form className="CreateHome-form" onSubmit={formApi.submitForm}>
-                  <label>How long have you lived here?</label>
-                  <Select
-                    field="lengthInProperty"
-                    options={this.lengthInProperty}
-                    defaultValue={previousAnswers.lengthInProperty}
-                  />
-                  <label>Are you on a pre-pay meter?</label>
-                  <Select
-                    field="prePay"
-                    options={this.yesNoOptions}
-                    defaultValue={previousAnswers.prePay}
-                  />
-                  <label>Rough monthly energy bill?</label>
-                  <Text
-                    field="monthlyBill"
-                    placeholder="£"
-                    type="number"
-                    defaultValue={previousAnswers.monthlyBill}
-                  />
-                  <label>Number of occupants</label>
-                  <Text
-                    field="inhabitants"
-                    placeholder="1"
-                    type="number"
-                    defaultValue={previousAnswers.inhabitants}
-                  />
-                  <label>Which provider are you with?</label>
-                  <Select
-                    field="energyProvider"
-                    options={this.energyCompanies}
-                    defaultValue={previousAnswers.energyProvider}
-                  />
-                  <label>How long have you been with them?</label>
-                  <Select
-                    field="providerDuration"
-                    options={this.lengthInProperty}
-                    defaultValue={previousAnswers.providerDuration}
-                  />
-                  <label>How happy are you with them?</label>
-                  <Select
-                    field="providerHappiness"
-                    options={this.happinessScore}
-                    defaultValue={previousAnswers.providerHappiness}
-                  />
-                  <label>When was the last time you switched?</label>
-                  <Select
-                    field="lastSwitched"
-                    options={this.lastSwitch}
-                    defaultValue={previousAnswers.lastSwitched}
-                  />
-                  <label>Are you the main account holder?</label>
-                  <Select
-                    field="accountHolder"
-                    options={this.yesNoOptions}
-                    defaultValue={previousAnswers.accountHolder}
-                  />
-                  <p>
-                    By completing this form, you are giving Blox your consent to
-                    attempt to negotiate discounted energy for you and your
-                    neighbours from the UK's energy companies. There is no
-                    obligation for you to switch – you can change your mind at
-                    any time.
-                  </p>
-                  <button className="CreateHome-submitButton" type="submit">
-                    Save details
-                  </button>
-                </form>
+        {!checked && <div>Waiting</div>}
+        {checked && (
+          <div>
+            {!displayFields && (
+              <div className="BoxContainer">
+                <h3>Your details have been saved. Thank you.</h3>
+                <button onClick={this.setShowFields}>View / Edit</button>
               </div>
             )}
-          </Form>
+            {displayFields && (
+              <Form
+                onSubmit={submittedValues => this.handleSubmit(submittedValues)}
+              >
+                {formApi => (
+                  <div>
+                    <h3>{this.props.flatAndBuilding}</h3>
+                    <form
+                      className="CreateHome-form"
+                      onSubmit={formApi.submitForm}
+                    >
+                      <label>How long have you lived here?</label>
+                      <Select
+                        field="lengthInProperty"
+                        options={this.lengthInProperty}
+                        defaultValue={previousAnswers.lengthInProperty}
+                      />
+                      <label>Are you on a pre-pay meter?</label>
+                      <Select
+                        field="prePay"
+                        options={this.yesNoOptions}
+                        defaultValue={previousAnswers.prePay}
+                      />
+                      <label>Rough monthly energy bill?</label>
+                      <Text
+                        field="monthlyBill"
+                        placeholder="£"
+                        type="number"
+                        defaultValue={previousAnswers.monthlyBill}
+                      />
+                      <label>Number of occupants</label>
+                      <Text
+                        field="inhabitants"
+                        placeholder="1"
+                        type="number"
+                        defaultValue={previousAnswers.inhabitants}
+                      />
+                      <label>Which provider are you with?</label>
+                      <Select
+                        field="energyProvider"
+                        options={this.energyCompanies}
+                        defaultValue={previousAnswers.energyProvider}
+                      />
+                      <label>How long have you been with them?</label>
+                      <Select
+                        field="providerDuration"
+                        options={this.lengthInProperty}
+                        defaultValue={previousAnswers.providerDuration}
+                      />
+                      <label>How happy are you with them?</label>
+                      <Select
+                        field="providerHappiness"
+                        options={this.happinessScore}
+                        defaultValue={previousAnswers.providerHappiness}
+                      />
+                      <label>When was the last time you switched?</label>
+                      <Select
+                        field="lastSwitched"
+                        options={this.lastSwitch}
+                        defaultValue={previousAnswers.lastSwitched}
+                      />
+                      <label>Are you the main account holder?</label>
+                      <Select
+                        field="accountHolder"
+                        options={this.yesNoOptions}
+                        defaultValue={previousAnswers.accountHolder}
+                      />
+                      <p>
+                        By completing this form, you are giving Blox your
+                        consent to attempt to negotiate discounted energy for
+                        you and your neighbours from the UK's energy companies.
+                        There is no obligation for you to switch – you can
+                        change your mind at any time.
+                      </p>
+                      <button className="CreateHome-submitButton" type="submit">
+                        Save details
+                      </button>
+                    </form>
+                  </div>
+                )}
+              </Form>
+            )}
+          </div>
         )}
       </div>
     );
