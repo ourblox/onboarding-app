@@ -108,20 +108,24 @@ export default ComposedComponent =>
         buildingSlug
       } = this.state;
       return (
-        <ComposedComponent
-          checked={checked}
-          updateRev={this.updateRev}
-          rev={rev}
-          updatePreviousAnswers={this.updatePreviousAnswers}
-          previousAnswers={previousAnswers}
-          flatAndBuilding={flatAndBuilding}
-          documentId={documentId}
-          displayFields={displayFields}
-          setHiddenFields={this.setHiddenFields}
-          buildingName={this.props.buildingName}
-          buildingSlug={buildingSlug}
-          db={this.props.db}
-        />
+        <div>
+          {checked && (
+            <ComposedComponent
+              updateRev={this.updateRev}
+              rev={rev}
+              updatePreviousAnswers={this.updatePreviousAnswers}
+              previousAnswers={previousAnswers}
+              flatAndBuilding={flatAndBuilding}
+              documentId={documentId}
+              displayFields={displayFields}
+              setHiddenFields={this.setHiddenFields}
+              buildingName={this.props.buildingName}
+              buildingSlug={buildingSlug}
+              db={this.props.db}
+            />
+          )}
+          {!checked && <p>Loading</p>}
+        </div>
       );
     }
   };
