@@ -11,7 +11,8 @@
   border-bottom: 1px dashed white;
 }
 
-.CreateHome-form input {
+.CreateHome-form input,
+.CreateHome-form select {
   background: none;
   border: none;
   color: white;

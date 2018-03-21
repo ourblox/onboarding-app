@@ -5,6 +5,16 @@ import LoginForm from './LoginForm.js';
 
 const Admins = ['ali', 'pete', 'sam', 'blox_admin', 'aliblackwell'];
 class Login extends Component {
+  state = {
+    message: null
+  };
+
+  dismissMessage = () => {
+    this.setState({
+      message: null
+    });
+  };
+
   logInUser = user => {
     if (user.username) {
       const db = this.props.loginDb;
@@ -17,6 +27,9 @@ class Login extends Component {
       db.login(username, user.password, (err, response) => {
         if (err) {
           console.debug(err);
+          this.setState({
+            message: "Your access code wasn't recognised. Please try again."
+          });
           return false;
         } else {
           this.props.handleLogin();
@@ -28,10 +41,17 @@ class Login extends Component {
 
   render() {
     const { loggedIn } = this.props;
+    const { message } = this.state;
     return (
       <div className="Login">
         {!loggedIn && (
           <div>
+            {message && (
+              <div className="CreateUser-messages BoxContainer">
+                <p>{message}</p>
+                <button onClick={this.dismissMessage}>Dismiss</button>
+              </div>
+            )}
             <LoginForm formType="LOGIN" handleSubmit={this.logInUser} />
           </div>
         )}

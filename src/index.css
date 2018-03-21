@@ -65,7 +65,8 @@ dd {
   font-size: 1.3rem;
 }
 
-input {
+input,
+select {
   padding: 1rem;
 }
 

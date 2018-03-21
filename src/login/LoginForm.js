@@ -19,7 +19,7 @@ class LoginForm extends Component {
             <form onSubmit={formApi.submitForm}>
               <EnterNumber placeholder="Door number" field="username" />
 
-              <EnterPasscode placeholder="Passcode" field="password" />
+              <EnterPasscode placeholder="Access code" field="password" />
 
               <div className="signup-buttons">
                 <button onClick={handleSubmit}>Go</button>

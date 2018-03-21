@@ -10,58 +10,57 @@ class BloxFAQs extends Component {
 
           <dd>
             We believe people are being ripped off by energy companies. We want
-            to explore a new approach where groups work together. And you get to
-            know your neighbours better!
-          </dd>
-
-          <dt>What’s in this for you?</dt>
-
-          <dd>
-            It doesn’t cost you anything. We’re going to take a finders fee from
-            the energy provider. It’s also the first step towards a Blox tool
-            that enables loads of people to save money.
-          </dd>
-
-          <dt>What’s your business model?</dt>
-
-          <dd>
-            We’re going to take a finders fee from the energy provider. It
-            doesn’t cost you anything.
-          </dd>
-
-          <dt>Are you in cahoots with the energy companies?</dt>
-
-          <dd>
-            No, it’s a competitive market and we’re going to fight for the best
-            tariff on everyone’s behalf.
-          </dd>
-
-          <dt>Are you being paid by the energy companies?</dt>
-
-          <dd>
-            We are not paid contractually by them, but we will receive a finders
-            fee from the cheapest provider. We’re an independent organisation
-            working on behalf of you and your communities.
-          </dd>
-
-          <dt>Are you working for the council?</dt>
-
-          <dd>
-            We’re not from the council, we’re an independent organisation
-            working to make life more affordable for communities like yours.
+            to explore new approaches to help groups and communities fight back
+            - all whilst getting to know your neighbours better!
           </dd>
 
           <dt>Why this block?</dt>
-
           <dd>
-            We chose your block because we found out that everyone is on
-            different providers. We also live round the corner!
+            We chose your block because we understand you are with different
+            energy providers. We also live around the corner!
+          </dd>
+
+          <dt>Are you working for the council?</dt>
+          <dd>
+            We're not from the council, we're an independent organisation
+            working to make life more affordable for groups and communities like
+            yours.
+          </dd>
+
+          <dt>Are you working for or on behalf of energy companies?</dt>
+          <dd>
+            No, we want all energy companies to compete to provide you with the
+            cheapest tariffs. We're an independent organisation working on
+            behalf of you and your community.
+          </dd>
+
+          <dt>What's in it for you?</dt>
+          <dd>
+            It doesn't cost you anything, we only take a fee from the energy
+            company. Their fee is what we need to develop Blox further to enable
+            more communities save money.
+          </dd>
+
+          <dt>How are you being paid by energy companies?</dt>
+          <dd>
+            We are not paid contractually by them, we will receive a finders fee
+            from the cheapest provider.
           </dd>
 
           <dt>Will I still have a relationship with the energy provider?</dt>
 
           <dd>
-            Yes, we will organise the cheapest tariff and help you switch.
+            Yes, we will organise the cheapest tariff on your behalf, and then
+            help you switch to them directly.
+          </dd>
+
+          <dt>Who are you?!</dt>
+          <dd>
+            We are three friends who like yourself are tired of being ripped
+            off. Life is increasingly expensive for everyone living in cities
+            like London. It has never been harder to get by, let alone save.
+            <br />
+            We want to do something about it!
           </dd>
         </dl>
       </div>

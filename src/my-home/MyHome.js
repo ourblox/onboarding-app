@@ -24,6 +24,7 @@ class MyHome extends Component {
     }
     return (
       <div className="MyHome ContentContainer">
+        <h2>Your information</h2>
         {!this.props.loggedIn && <Redirect to="/login" />}
         {ready &&
           username && (

@@ -23,7 +23,8 @@ PouchDB.plugin(PDAuth);
 
 const Buildings = {
   cdh: 'Charles Dickens House',
-  wph: 'Welshpool House'
+  wph: 'Welshpool House',
+  test: 'Verdigris Apartments'
 };
 
 class App extends Component {
