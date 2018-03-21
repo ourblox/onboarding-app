@@ -7,8 +7,7 @@ export default ComposedComponent =>
       this.state = {
         rev: null,
         previousAnswers: {},
-        displayFields: true,
-        checked: false
+        displayFields: true
       };
     }
 

@@ -50,6 +50,7 @@ class CreateHome extends Component {
             <div className="ContentContainer">
               <CreateHomeForm
                 db={this.props.db}
+                checked={true}
                 flatNumber={flatNumber}
                 buildingName={buildingName}
                 buildingSlug={buildingSlug}
