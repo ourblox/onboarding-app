@@ -7,7 +7,8 @@ export default ComposedComponent =>
       this.state = {
         rev: null,
         previousAnswers: {},
-        displayFields: true
+        displayFields: true,
+        checked: false
       };
     }
 
@@ -56,6 +57,9 @@ export default ComposedComponent =>
               buildingSlug: buildingSlug
             });
           }
+          this.setState({
+            checked: true
+          });
         });
     }
 
