@@ -292,7 +292,7 @@ class CreateHomeForm extends Component {
 
     return (
       <div>
-        {!checked && <div>Waiting</div>}
+        <p>{checked}</p>
         {checked && (
           <div>
             {!displayFields && (
@@ -385,6 +385,7 @@ class CreateHomeForm extends Component {
             )}
           </div>
         )}
+        {!checked && <div>Waiting</div>}
       </div>
     );
   }
