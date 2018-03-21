@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form } from 'react-form';
 import CreateHomeForm from './CreateHomeForm';
 import { Redirect } from 'react-router-dom';
-import EnterNumber from '../components/enter-number/EnterNumber';
+import EnterNumber from '../components/custom-form-fields/EnterNumber';
 
 import './CreateHome.css';
 

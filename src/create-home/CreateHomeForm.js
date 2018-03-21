@@ -97,7 +97,7 @@ class CreateHomeForm extends Component {
                     defaultValue={previousAnswers.mainAccountHolder}
                   />
                   <button className="CreateHome-submitButton" type="submit">
-                    Proceed
+                    Save details
                   </button>
                 </form>
               </div>

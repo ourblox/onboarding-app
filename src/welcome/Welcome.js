@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Welcome.css';
 
 class Welcome extends Component {
@@ -23,9 +23,11 @@ class Welcome extends Component {
           met one of our team or been left a card, please choose your address to
           proceed.
         </p>
-        <ul>
+        <ul className="Welcome-ButtonList">
           <li>
-            <NavLink to="/qbr">355 Queensbridge Road</NavLink>
+            <Link className="BigButton" to="/wph">
+              Welshpool House
+            </Link>
           </li>
         </ul>
       </div>

@@ -23,7 +23,7 @@ PouchDB.plugin(PDAuth);
 
 const Buildings = {
   cdh: 'Charles Dickens House',
-  qbr: '355 Queensbridge Rod'
+  wph: 'Welshpool House'
 };
 
 class App extends Component {
@@ -36,6 +36,7 @@ class App extends Component {
   state = {
     buildingName: 'The Social Network for Buildings',
     buildingSlug: null,
+    username: null,
     loggedIn: true,
     admin: false,
     remoteDb: null,
@@ -139,13 +140,21 @@ class App extends Component {
   };
 
   MyHomeWrapper = () => {
-    const { buildingName, localDb, loggedIn } = this.state;
+    const {
+      buildingName,
+      localDb,
+      loggedIn,
+      username,
+      buildingSlug
+    } = this.state;
     return (
       <div className="Content">
         {localDb && (
           <MyHome
             db={localDb}
+            username={username}
             loggedIn={loggedIn}
+            buildingSlug={buildingSlug}
             buildingName={buildingName}
           />
         )}
@@ -212,10 +221,16 @@ class App extends Component {
   };
 
   CreateUserWrapper = () => {
-    const { remoteDb, loggedIn } = this.state;
+    const { remoteDb, loggedIn, buildingSlug } = this.state;
     return (
       <div className="Content">
-        {remoteDb && <CreateUser remoteDb={remoteDb} loggedIn={loggedIn} />}
+        {remoteDb && (
+          <CreateUser
+            buildingSlug={buildingSlug}
+            remoteDb={remoteDb}
+            loggedIn={loggedIn}
+          />
+        )}
         {!remoteDb && !loggedIn && <Redirect to="/login" />}
       </div>
     );
@@ -227,17 +242,18 @@ class App extends Component {
       db.getSession((err, response) => {
         let admin = false;
         let loggedIn = true;
+        let username = null;
         if (err) {
           console.debug('No one logged in error', err);
           loggedIn = false;
         } else if (!response.userCtx.name) {
           console.debug('No one logged in', response);
-
           loggedIn = false;
         } else {
           console.debug(response.userCtx.name, 'is logged in.');
           this.setupLocalPouchDB();
           loggedIn = true;
+          username = response.userCtx.name;
           let role = response.userCtx.roles[0];
           if (role) {
             role = role.toString();
@@ -248,7 +264,8 @@ class App extends Component {
         }
         this.setState({
           loggedIn: loggedIn,
-          admin: admin
+          admin: admin,
+          username: username
         });
       });
     }
@@ -297,11 +314,7 @@ class App extends Component {
           />
         </Switch>
         <footer>
-          <FooterNav
-            loggedIn={loggedIn}
-            admin={admin}
-            buildingSlug={buildingSlug}
-          />
+          <FooterNav loggedIn={loggedIn} />
         </footer>
       </div>
     );

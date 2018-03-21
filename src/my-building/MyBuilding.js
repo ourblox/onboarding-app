@@ -30,10 +30,13 @@ class MyBuilding extends Component {
           handle the switching. We expect you to save quite a bit of money.{' '}
         </p>
         <p>
-          If you received a card, please{' '}
-          <Link to="/login">login using the details on the card</Link> and input
-          your current energy details. We will handle the rest!
+          If you received a card, please login using the details on the card and
+          input your current energy details. We will handle the rest!
         </p>
+
+        <Link className="BigButton MyBuilding-CTA" to="/login">
+          Login now
+        </Link>
         <p>
           Questions? please <Link to="/blox-faqs">browse our FAQs</Link>{' '}
         </p>

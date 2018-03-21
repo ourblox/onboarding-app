@@ -82,6 +82,18 @@ button {
   padding: 0.75rem 1rem;
 }
 
+.BigButton {
+  width: 100%;
+  padding: 1rem;
+  margin: 3rem auto;
+  display: block;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: 1px solid white;
+  font-size: 2rem;
+  text-align: center;
+}
+
 .Content {
   margin-top: 0;
 }

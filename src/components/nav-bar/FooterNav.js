@@ -4,8 +4,7 @@ import './NavBar.css';
 
 class FooterNav extends Component {
   render() {
-    const { loggedIn, admin, buildingSlug } = this.props;
-    const slugURL = `/${buildingSlug}`;
+    const { loggedIn } = this.props;
     return (
       <nav className="NavBar">
         <ul>

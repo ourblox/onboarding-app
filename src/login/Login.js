@@ -3,7 +3,7 @@ import './Login.css';
 import { Redirect } from 'react-router-dom';
 import LoginForm from './LoginForm.js';
 
-const Admins = ['ali', 'pete', 'sam'];
+const Admins = ['ali', 'pete', 'sam', 'clarisse'];
 class Login extends Component {
   logInUser = user => {
     if (user.username) {
@@ -12,7 +12,6 @@ class Login extends Component {
       let username = user.username.toLowerCase();
       if (Admins.indexOf(username) < 0) {
         username = `${username}-${buildingSlug}`;
-        console.log(username);
       }
       remoteDb.login(username, user.password, (err, response) => {
         if (err) {

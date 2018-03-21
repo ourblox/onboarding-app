@@ -2,3 +2,16 @@
   text-align: left;
   margin: 16px;
 }
+
+.Welcome-ButtonList,
+.Welcome-ButtonList li {
+  text-indent: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.Welcome-ButtonList .BigButton {
+  font-size: 1rem;
+  margin: 1rem auto;
+}

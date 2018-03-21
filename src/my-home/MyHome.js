@@ -6,7 +6,6 @@ import './MyHome.css';
 
 class MyHome extends Component {
   state = {
-    flatNumber: 123, // Needs working out based on their username
     ready: false
   };
 
@@ -17,18 +16,24 @@ class MyHome extends Component {
   }
 
   render() {
-    const { buildingName } = this.props;
-    const { flatNumber, ready } = this.state;
+    const { buildingName, buildingSlug, username } = this.props;
+    let flatNumber = 1;
+    const { ready } = this.state;
+    if (username) {
+      flatNumber = username.split(`-${buildingSlug}`)[0];
+    }
     return (
       <div className="MyHome ContentContainer">
         {!this.props.loggedIn && <Redirect to="/login" />}
-        {ready && (
-          <CreateHomeForm
-            db={this.props.db}
-            flatNumber={flatNumber}
-            buildingName={buildingName}
-          />
-        )}
+        {ready &&
+          username && (
+            <CreateHomeForm
+              db={this.props.db}
+              flatNumber={flatNumber}
+              buildingName={buildingName}
+              buildingSlug={buildingSlug}
+            />
+          )}
       </div>
     );
   }

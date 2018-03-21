@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Text } from 'react-form';
+import { Form } from 'react-form';
 import EnterNumber from '../components/custom-form-fields/EnterNumber';
 import EnterPasscode from '../components/custom-form-fields/EnterPasscode';
 import './LoginForm.css';
