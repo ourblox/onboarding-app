@@ -95,7 +95,7 @@ export default ComposedComponent =>
             });
           }
         })
-        .catch(err => console.debug(err));
+        .catch(err => this.setState({ checked: true }));
     };
 
     render() {
