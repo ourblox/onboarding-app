@@ -83,7 +83,8 @@ export default ComposedComponent =>
             this.setState({
               previousAnswers: doc,
               displayFields: true,
-              checked: true
+              checked: true,
+              buildingSlug: buildingSlug
             });
 
             if (doc._rev) {
@@ -94,7 +95,8 @@ export default ComposedComponent =>
           } else {
             this.setState({
               displayFields: true,
-              checked: true
+              checked: true,
+              buildingSlug: buildingSlug
             });
           }
         })
