@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './CreateUser.css';
-import { Redirect } from 'react-router-dom';
 import CreateUserForm from '../login/LoginForm.js';
 
 class CreateUser extends Component {
+  static propTypes = {
+    remoteDb: PropTypes.object.isRequired,
+    buildingSlug: PropTypes.string.isRequired
+  };
+
   state = {
     created: false,
     message: null
@@ -16,11 +21,10 @@ class CreateUser extends Component {
   };
 
   createUser = user => {
-    const buildingSlug = this.props.buildingSlug;
+    const { buildingSlug, remoteDb } = this.props;
     if (user.username) {
-      const db = this.props.remoteDb;
       const username = `${user.username}-${buildingSlug}`;
-      db.signup(username, user.password, (err, response) => {
+      remoteDb.signup(username, user.password, (err, response) => {
         if (err) {
           this.setState({
             message: err.message
@@ -30,7 +34,7 @@ class CreateUser extends Component {
           this.setState({
             message: `Created user ${username} with password ${user.password}`
           });
-          db
+          remoteDb
             .get(buildingSlug)
             .then(doc => {
               if (doc) {
@@ -44,7 +48,7 @@ class CreateUser extends Component {
                 } else {
                   doc[username] = 'created';
                 }
-                db
+                remoteDb
                   .post(doc)
                   .then(response => {
                     this.setState({
@@ -64,11 +68,9 @@ class CreateUser extends Component {
   };
 
   render() {
-    const { loggedIn } = this.props;
-    const message = this.state.message;
+    const { message } = this.state;
     return (
       <div className="CreateUser">
-        {!loggedIn && <Redirect to="/login" />}
         {message && (
           <div className="CreateUser-messages BoxContainer">
             <p>{message}</p>

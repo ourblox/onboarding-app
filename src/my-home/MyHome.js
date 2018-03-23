@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import CreateHomeForm from '../create-home/CreateHomeForm';
-
 import './MyHome.css';
 
 class MyHome extends Component {
+  static propTypes = {
+    localDb: PropTypes.object.isRequired,
+    buildingSlug: PropTypes.string.isRequired,
+    buildingName: PropTypes.string.isRequired,
+    flatNumber: PropTypes.string
+  };
+
   state = {
     ready: false
   };
@@ -16,23 +22,18 @@ class MyHome extends Component {
   }
 
   render() {
-    const { buildingName, buildingSlug, username } = this.props;
-    let flatNumber = 1;
+    const { localDb, buildingName, buildingSlug, flatNumber } = this.props;
     const { ready } = this.state;
-    if (username) {
-      flatNumber = username.split(`-${buildingSlug}`)[0];
-    }
     return (
       <div className="MyHome ContentContainer">
         <h2>Your information</h2>
-        {!this.props.loggedIn && <Redirect to="/login" />}
         {ready &&
-          username && (
+          flatNumber && (
             <CreateHomeForm
-              db={this.props.db}
-              flatNumber={flatNumber}
+              localDb={localDb}
               buildingName={buildingName}
               buildingSlug={buildingSlug}
+              flatNumber={flatNumber}
             />
           )}
       </div>

@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Form } from 'react-form';
 import CreateHomeForm from './CreateHomeForm';
-import { Redirect } from 'react-router-dom';
 import EnterNumber from '../components/custom-form-fields/EnterNumber';
 
 import './CreateHome.css';
 
 class CreateHome extends Component {
+  static propTypes = {
+    localDb: PropTypes.object.isRequired,
+    buildingSlug: PropTypes.string.isRequired,
+    buildingName: PropTypes.string.isRequired
+  };
+
   state = {
     formBegun: false,
     flatNumber: 0
@@ -23,11 +29,9 @@ class CreateHome extends Component {
 
   render() {
     const { formBegun, flatNumber } = this.state;
-    const { buildingName, buildingSlug } = this.props;
+    const { localDb, buildingSlug, buildingName } = this.props;
     return (
       <div className="CreateHome">
-        {!this.props.loggedIn && <Redirect to="/login" />}
-
         {!formBegun && (
           <div className="BoxContainer">
             <h3>Add new home</h3>
@@ -49,11 +53,10 @@ class CreateHome extends Component {
           buildingSlug && (
             <div className="ContentContainer">
               <CreateHomeForm
-                db={this.props.db}
-                checked={true}
                 flatNumber={flatNumber}
-                buildingName={buildingName}
+                localDb={localDb}
                 buildingSlug={buildingSlug}
+                buildingName={buildingName}
               />
             </div>
           )}

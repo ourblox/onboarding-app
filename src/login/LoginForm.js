@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import { Form } from 'react-form';
+import PropTypes from 'prop-types';
+
 import EnterNumber from '../components/custom-form-fields/EnterNumber';
 import EnterPasscode from '../components/custom-form-fields/EnterPasscode';
 import './LoginForm.css';
 
 class LoginForm extends Component {
+  static propTypes = {
+    formType: PropTypes.string.isRequired,
+    handleSubmit: PropTypes.func.isRequired
+  };
+
   render() {
     const { handleSubmit, formType } = this.props;
     return (
@@ -31,11 +38,5 @@ class LoginForm extends Component {
     );
   }
 }
-
-// LoginForm.propTypes = {
-//   fields: PropTypes.object.isRequired,
-//   handleSubmit: PropTypes.func.isRequired,
-//     formType: PropTypes.string.isRequired
-// }
 
 export default LoginForm;

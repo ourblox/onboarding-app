@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import './Dashboard.css';
 
 class Dashboard extends Component {
+  static propTypes = {
+    localDb: PropTypes.object.isRequired,
+    loggedIn: PropTypes.bool.isRequired,
+    buildingSlug: PropTypes.string.isRequired,
+    buildingName: PropTypes.string.isRequired
+  };
+
   state = {
     checked: false,
     building: null,
@@ -10,9 +18,9 @@ class Dashboard extends Component {
   };
 
   componentDidMount = () => {
-    const { db, buildingSlug } = this.props;
+    const { localDb, buildingSlug } = this.props;
     if (buildingSlug) {
-      db
+      localDb
         .allDocs({
           include_docs: true,
           startkey: buildingSlug,
@@ -26,7 +34,7 @@ class Dashboard extends Component {
         .catch(err => {
           console.debug(err);
         });
-      db
+      localDb
         .get(buildingSlug)
         .then(doc => {
           if (doc) {
@@ -48,11 +56,11 @@ class Dashboard extends Component {
   };
 
   render() {
-    const { buildingName } = this.props;
+    const { buildingName, loggedIn } = this.props;
     const { building, signedUp, checked } = this.state;
     return (
       <div className="Dashboard">
-        {!this.props.loggedIn && <Redirect to="/login" />}
+        {!loggedIn && <Redirect to="/login" />}
         {building &&
           checked && (
             <p>

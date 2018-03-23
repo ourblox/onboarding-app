@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
 import { Form, Text, Select } from 'react-form';
+import PropTypes from 'prop-types';
 import CreateHomeFormHOC from './CreateHomeFormHOC.js';
 import './CreateHomeForm.css';
 
 class CreateHomeForm extends Component {
+  static propTypes = {
+    localDb: PropTypes.object.isRequired,
+    buildingSlug: PropTypes.string.isRequired,
+    buildingName: PropTypes.string.isRequired,
+    flatNumber: PropTypes.string.isRequired,
+    updateRev: PropTypes.func.isRequired,
+    updatePreviousAnswers: PropTypes.func.isRequired,
+    rev: PropTypes.string,
+    setHiddenFields: PropTypes.func.isRequired
+  };
+
   state = {
     rev: null,
     previousAnswers: {}
@@ -14,19 +26,26 @@ class CreateHomeForm extends Component {
   };
 
   handleSubmit = submittedValues => {
-    const buildingSlug = this.props.buildingSlug;
+    const {
+      localDb,
+      buildingSlug,
+      documentId,
+      rev,
+      updateRev,
+      setHiddenFields
+    } = this.props;
     if (submittedValues) {
-      submittedValues._id = this.props.documentId;
+      submittedValues._id = documentId;
       submittedValues.type = 'buildingRecord';
       submittedValues.buildingId = buildingSlug;
-      if (this.props.rev) {
-        submittedValues._rev = this.props.rev;
+      if (rev) {
+        submittedValues._rev = rev;
       }
-      this.props.db
+      localDb
         .post(submittedValues)
         .then(response => {
-          this.props.updateRev(response.rev);
-          this.props.setHiddenFields();
+          updateRev(response.rev);
+          setHiddenFields();
         })
         .catch(err => console.debug(err));
     }
@@ -288,7 +307,7 @@ class CreateHomeForm extends Component {
   ];
 
   render() {
-    const { displayFields, previousAnswers, checked } = this.props;
+    const { displayFields, previousAnswers } = this.props;
 
     return (
       <div>

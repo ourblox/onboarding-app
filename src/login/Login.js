@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
-import './Login.css';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import LoginForm from './LoginForm.js';
+import './Login.css';
 
 const Admins = ['ali', 'pete', 'sam', 'blox_admin', 'aliblackwell'];
 class Login extends Component {
+  static propTypes = {
+    loginDb: PropTypes.object.isRequired,
+    loggedIn: PropTypes.bool.isRequired,
+    buildingSlug: PropTypes.string.isRequired,
+    handleLogin: PropTypes.func.isRequired
+  };
+
   state = {
     message: null,
     admin: false
@@ -18,8 +26,7 @@ class Login extends Component {
 
   logInUser = user => {
     if (user.username) {
-      const db = this.props.loginDb;
-      const buildingSlug = this.props.buildingSlug;
+      const { loginDb, buildingSlug, handleLogin } = this.props;
       let username = user.username.toLowerCase();
       if (Admins.indexOf(username) < 0) {
         username = `${username}-${buildingSlug}`;
@@ -29,7 +36,7 @@ class Login extends Component {
         });
       }
 
-      db.login(username, user.password, (err, response) => {
+      loginDb.login(username, user.password, (err, response) => {
         if (err) {
           console.debug(err);
           this.setState({
@@ -37,7 +44,7 @@ class Login extends Component {
           });
           return false;
         } else {
-          this.props.handleLogin();
+          handleLogin();
           return true;
         }
       });

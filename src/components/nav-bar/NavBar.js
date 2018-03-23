@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import './NavBar.css';
 
 class NavBar extends Component {
+  static propTypes = {
+    loggedIn: PropTypes.bool.isRequired,
+    admin: PropTypes.string.isRequired,
+    buildingSlug: PropTypes.string.isRequired
+  };
+
   render() {
     const { loggedIn, admin, buildingSlug } = this.props;
     const slugURL = `/${buildingSlug}`;

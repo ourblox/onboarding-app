@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default ComposedComponent =>
   class extends Component {
+    static propTypes = {
+      localDb: PropTypes.object.isRequired,
+      buildingSlug: PropTypes.string.isRequired,
+      buildingName: PropTypes.string.isRequired
+    };
+
     constructor(props) {
       super();
       this.state = {
@@ -12,29 +19,21 @@ export default ComposedComponent =>
       };
     }
 
-    updateRev = rev => {
-      this.setState({
-        rev: rev
-      });
-    };
-
     componentDidMount() {
       const buildingName = this.props.buildingName;
       const flatNumber = this.props.flatNumber;
       const buildingNameAsID = buildingName.replace(/\s+/g, '-').toLowerCase();
       const buildingSlug = this.props.buildingSlug;
       const documentId = `${buildingSlug}-${flatNumber}-${buildingNameAsID}`;
-      this.props.db
+      this.props.localDb
         .get(documentId)
         .then(doc => {
           if (doc) {
             this.setState({
-              flatNumber: flatNumber,
               flatAndBuilding: `${flatNumber} ${buildingName}`,
               documentId: documentId,
               previousAnswers: doc,
-              checked: true,
-              buildingSlug: buildingSlug
+              checked: true
             });
             if (doc._rev) {
               this.setState({
@@ -50,11 +49,9 @@ export default ComposedComponent =>
         .catch(err => {
           if (err.name === 'not_found') {
             this.setState({
-              flatNumber: flatNumber,
               flatAndBuilding: `${flatNumber} ${buildingName}`,
               documentId: documentId,
-              checked: true,
-              buildingSlug: buildingSlug
+              checked: true
             });
           }
           this.setState({
@@ -69,6 +66,12 @@ export default ComposedComponent =>
       });
     };
 
+    updateRev = rev => {
+      this.setState({
+        rev: rev
+      });
+    };
+
     updatePreviousAnswers = () => {
       // This stuff appears in componentDidMount and should be abstracted
       const buildingName = this.props.buildingName;
@@ -76,7 +79,7 @@ export default ComposedComponent =>
       const flatNumber = this.props.flatNumber;
       const buildingNameAsID = buildingName.replace(/\s+/g, '-').toLowerCase();
       const documentId = `${buildingSlug}-${flatNumber}-${buildingNameAsID}`;
-      this.props.db
+      this.props.localDb
         .get(documentId)
         .then(doc => {
           if (doc) {
@@ -105,29 +108,26 @@ export default ComposedComponent =>
 
     render() {
       const {
+        rev,
         previousAnswers,
         flatAndBuilding,
         documentId,
-        rev,
-        checked,
         displayFields,
-        buildingSlug
+        checked
       } = this.state;
       return (
         <div>
           {checked && (
             <ComposedComponent
-              updateRev={this.updateRev}
+              {...this.props}
               rev={rev}
-              updatePreviousAnswers={this.updatePreviousAnswers}
+              updateRev={this.updateRev}
               previousAnswers={previousAnswers}
+              updatePreviousAnswers={this.updatePreviousAnswers}
               flatAndBuilding={flatAndBuilding}
               documentId={documentId}
               displayFields={displayFields}
               setHiddenFields={this.setHiddenFields}
-              buildingName={this.props.buildingName}
-              buildingSlug={buildingSlug}
-              db={this.props.db}
             />
           )}
           {!checked && <p>Loading</p>}

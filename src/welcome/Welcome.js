@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './Welcome.css';
 
 class Welcome extends Component {
+  static propTypes = {
+    buildingSlug: PropTypes.string,
+    setBuildingName: PropTypes.func.isRequired
+  };
+
   componentDidMount = () => {
     this.props.setBuildingName('reset');
   };
+
   componentWillUnmount = () => {
-    if (this.props.buildingSlug) {
-      this.props.setBuildingName(this.props.buildingSlug);
+    const { buildingSlug, setBuildingName } = this.props;
+    if (buildingSlug) {
+      setBuildingName(buildingSlug);
     }
   };
   render() {

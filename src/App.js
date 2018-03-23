@@ -1,20 +1,13 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
+import AppRoutes from './AppRoutes';
 import PropTypes from 'prop-types';
-import { Switch, Route, NavLink, Redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import logo from './blox.svg';
-import Dashboard from './dashboard/Dashboard';
-import Welcome from './welcome/Welcome';
-import MyBuilding from './my-building/MyBuilding';
-import CreateHome from './create-home/CreateHome';
-import MyHome from './my-home/MyHome';
+
 import PouchDB from 'pouchdb';
 import PDAuth from 'pouchdb-authentication';
-import Login from './login/Login';
-import Logout from './login/Logout';
-import Privacy from './privacy/Privacy';
-import CreateUser from './create-user/CreateUser';
-import BloxFAQs from './blox-faqs/BloxFAQs';
+
 import NavBar from './components/nav-bar/NavBar';
 import FooterNav from './components/nav-bar/FooterNav';
 import './App.css';
@@ -37,7 +30,7 @@ class App extends Component {
   state = {
     buildingName: 'The Social Network for Buildings',
     buildingSlug: null,
-    username: null,
+    flatNumber: null,
     loggedIn: true,
     admin: false,
     remoteDb: null,
@@ -106,138 +99,6 @@ class App extends Component {
     }
   };
 
-  DashboardWrapper = props => {
-    const { buildingName, buildingSlug, localDb, loggedIn } = this.state;
-    return (
-      <div>
-        {localDb && (
-          <Dashboard
-            {...this.props}
-            loggedIn={loggedIn}
-            buildingName={buildingName}
-            buildingSlug={buildingSlug}
-            db={localDb}
-          />
-        )}
-        {!localDb && !loggedIn && <Redirect to="/login" />}
-      </div>
-    );
-  };
-
-  CreateHomeWrapper = () => {
-    const { buildingName, localDb, loggedIn, buildingSlug } = this.state;
-    return (
-      <div className="Content">
-        {localDb && (
-          <CreateHome
-            db={localDb}
-            loggedIn={loggedIn}
-            buildingSlug={buildingSlug}
-            buildingName={buildingName}
-          />
-        )}
-        {!localDb && !loggedIn && <Redirect to="/login" />}
-      </div>
-    );
-  };
-
-  MyHomeWrapper = () => {
-    const {
-      buildingName,
-      localDb,
-      loggedIn,
-      username,
-      buildingSlug
-    } = this.state;
-    return (
-      <div className="Content">
-        {localDb && (
-          <MyHome
-            db={localDb}
-            username={username}
-            loggedIn={loggedIn}
-            buildingSlug={buildingSlug}
-            buildingName={buildingName}
-          />
-        )}
-        {!localDb && !loggedIn && <Redirect to="/login" />}
-      </div>
-    );
-  };
-
-  WelcomeWrapper = props => {
-    const { buildingSlug } = this.state;
-    return (
-      <div className="Content">
-        <Welcome
-          {...props}
-          buildingSlug={buildingSlug}
-          setBuildingName={this.setBuildingName}
-        />
-      </div>
-    );
-  };
-
-  MyBuildingWrapper = props => {
-    const { buildingName } = this.state;
-    return (
-      <div className="Content">
-        <MyBuilding
-          {...props}
-          buildingName={buildingName}
-          setBuildingName={this.setBuildingName}
-        />
-      </div>
-    );
-  };
-
-  LoginWrapper = () => {
-    const { loggedIn, buildingSlug, loginDb } = this.state;
-    return (
-      <div className="Content">
-        {loginDb && (
-          <Login
-            loggedIn={loggedIn}
-            loginDb={loginDb}
-            buildingSlug={buildingSlug}
-            handleLogin={this.setLoggedIn}
-          />
-        )}
-      </div>
-    );
-  };
-
-  LogoutWrapper = () => {
-    const { remoteDb, loggedIn } = this.state;
-    return (
-      <div className="Content">
-        {remoteDb && (
-          <Logout
-            remoteDb={remoteDb}
-            loggedIn={loggedIn}
-            handleLogout={this.setLoggedOut}
-          />
-        )}
-      </div>
-    );
-  };
-
-  CreateUserWrapper = () => {
-    const { remoteDb, loggedIn, buildingSlug } = this.state;
-    return (
-      <div className="Content">
-        {remoteDb && (
-          <CreateUser
-            buildingSlug={buildingSlug}
-            remoteDb={remoteDb}
-            loggedIn={loggedIn}
-          />
-        )}
-        {!remoteDb && !loggedIn && <Redirect to="/login" />}
-      </div>
-    );
-  };
-
   checkSession = () => {
     const db = this.state.loginDb;
     if (db) {
@@ -245,6 +106,7 @@ class App extends Component {
         let admin = false;
         let loggedIn = true;
         let username = null;
+        let flatNumber = null;
         if (err) {
           console.debug('No one logged in error', err);
           loggedIn = false;
@@ -256,6 +118,9 @@ class App extends Component {
           this.initializeAuthenticatedDB();
           loggedIn = true;
           username = response.userCtx.name;
+          if (username) {
+            flatNumber = username.split(`-${this.state.buildingSlug}`)[0];
+          }
           let role = response.userCtx.roles[0];
           if (role) {
             role = role.toString();
@@ -267,22 +132,22 @@ class App extends Component {
         this.setState({
           loggedIn: loggedIn,
           admin: admin,
-          username: username
+          flatNumber: flatNumber
         });
       });
     } else {
       this.setState({
         loggedIn: false,
         admin: false,
-        username: null
+        flatNumber: null
       });
     }
   };
 
   initializeAuthenticatedDB() {
+    // Only run this once the user is logged in
     const remoteCouch = `${process.env.REACT_APP_COUCHDB_SERVER}/ourblox`;
     const db = new PouchDB(remoteCouch, { skipSetup: true });
-
     db.info().then(info => {
       this.setState({
         remoteDb: db
@@ -307,7 +172,16 @@ class App extends Component {
   }
 
   render() {
-    const { loggedIn, admin, buildingName, buildingSlug } = this.state;
+    const {
+      loggedIn,
+      admin,
+      buildingName,
+      buildingSlug,
+      flatNumber,
+      remoteDb,
+      loginDb,
+      localDb
+    } = this.state;
     return (
       <div className="App">
         <header className="App-header">
@@ -317,22 +191,19 @@ class App extends Component {
           <h2 className="App-BuildingName">{buildingName}</h2>
         </header>
         <NavBar loggedIn={loggedIn} admin={admin} buildingSlug={buildingSlug} />
-        <Switch>
-          <Route path="/dashboard" component={this.DashboardWrapper} />
-          <Route path="/blox-faqs" component={BloxFAQs} />
-          <Route path="/privacy" component={Privacy} />
-          <Route path="/login" component={this.LoginWrapper} />
-          <Route path="/add-home" component={this.CreateHomeWrapper} />
-          <Route path="/my-home" component={this.MyHomeWrapper} />
-          <Route path="/add-user" component={this.CreateUserWrapper} />
-          <Route path="/logout" component={this.LogoutWrapper} />
-          <Route exact path="/" component={this.WelcomeWrapper} />
-          <Route
-            exact
-            path="/:buildingName?/"
-            component={this.MyBuildingWrapper}
-          />
-        </Switch>
+        <AppRoutes
+          loggedIn={loggedIn}
+          setLoggedIn={this.setLoggedIn}
+          setLoggedOut={this.setLoggedOut}
+          admin={admin}
+          buildingSlug={buildingSlug}
+          buildingName={buildingName}
+          setBuildingName={this.setBuildingName}
+          remoteDb={remoteDb}
+          loginDb={loginDb}
+          localDb={localDb}
+          flatNumber={flatNumber}
+        />
         <footer>
           <FooterNav loggedIn={loggedIn} />
         </footer>
