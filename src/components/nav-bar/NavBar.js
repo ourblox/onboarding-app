@@ -6,8 +6,8 @@ import './NavBar.css';
 class NavBar extends Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
-    admin: PropTypes.string.isRequired,
-    buildingSlug: PropTypes.string.isRequired
+    admin: PropTypes.bool.isRequired,
+    buildingSlug: PropTypes.string
   };
 
   render() {
