@@ -22,6 +22,7 @@ class Welcome extends Component {
   render() {
     return (
       <div className="Welcome ContentContainer">
+        <h2>Introducing Blox Pool</h2>
         <p>
           Our first tool is Blox Pool, enabling people to save money on their
           energy by working together to bargain collectively.

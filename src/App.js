@@ -102,39 +102,41 @@ class App extends Component {
   checkSession = () => {
     const db = this.state.loginDb;
     if (db) {
-      db.getSession((err, response) => {
-        let admin = false;
-        let loggedIn = true;
-        let username = null;
-        let flatNumber = null;
-        if (err) {
-          console.debug('No one logged in error', err);
-          loggedIn = false;
-        } else if (!response.userCtx.name) {
-          console.debug('No one logged in', response);
-          loggedIn = false;
-        } else {
-          console.debug(response.userCtx.name, 'is logged in.');
-          this.initializeAuthenticatedDB();
-          loggedIn = true;
-          username = response.userCtx.name;
-          if (username) {
-            flatNumber = username.split(`-${this.state.buildingSlug}`)[0];
-          }
-          let role = response.userCtx.roles[0];
-          if (role) {
-            role = role.toString();
-            if (role.indexOf('admin') > -1) {
-              admin = true;
+      db
+        .getSession((err, response) => {
+          let admin = false;
+          let loggedIn = true;
+          let username = null;
+          let flatNumber = null;
+          if (err) {
+            console.debug('No one logged in error', err);
+            loggedIn = false;
+          } else if (!response.userCtx.name) {
+            console.debug('No one logged in', response);
+            loggedIn = false;
+          } else {
+            console.debug(response.userCtx.name, 'is logged in.');
+            this.initializeAuthenticatedDB();
+            loggedIn = true;
+            username = response.userCtx.name;
+            if (username) {
+              flatNumber = username.split(`-${this.state.buildingSlug}`)[0];
+            }
+            let role = response.userCtx.roles[0];
+            if (role) {
+              role = role.toString();
+              if (role.indexOf('admin') > -1) {
+                admin = true;
+              }
             }
           }
-        }
-        this.setState({
-          loggedIn: loggedIn,
-          admin: admin,
-          flatNumber: flatNumber
-        });
-      });
+          this.setState({
+            loggedIn: loggedIn,
+            admin: admin,
+            flatNumber: flatNumber
+          });
+        })
+        .catch(err => console.log(err));
     } else {
       this.setState({
         loggedIn: false,
@@ -163,12 +165,15 @@ class App extends Component {
     }
     const loginCouch = `${process.env.REACT_APP_COUCHDB_SERVER}/bloxlogin`;
     const db = new PouchDB(loginCouch, { skipSetup: true });
-    db.info().then(info => {
-      this.setState({
-        loginDb: db
-      });
-      this.checkSession();
-    });
+    db
+      .info()
+      .then(info => {
+        this.setState({
+          loginDb: db
+        });
+        this.checkSession();
+      })
+      .catch(err => console.debug(err));
   }
 
   render() {
@@ -180,7 +185,8 @@ class App extends Component {
       flatNumber,
       remoteDb,
       loginDb,
-      localDb
+      localDb,
+      message
     } = this.state;
     return (
       <div className="App">

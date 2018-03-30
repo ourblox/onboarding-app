@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './CreateUser.css';
 import CreateUserForm from '../login/LoginForm.js';
+import DismissableMessage from '../components/dismissable-message/DismissableMessage';
 
 class CreateUser extends Component {
   static propTypes = {
@@ -14,7 +15,7 @@ class CreateUser extends Component {
     message: null
   };
 
-  dismissMessage = () => {
+  hideMessage = () => {
     this.setState({
       message: null
     });
@@ -72,12 +73,14 @@ class CreateUser extends Component {
     return (
       <div className="CreateUser">
         {message && (
-          <div className="CreateUser-messages BoxContainer">
-            <p>{message}</p>
-            <button onClick={this.dismissMessage}>Dismiss</button>
-          </div>
+          <DismissableMessage
+            message={message}
+            handleDismissMessage={this.hideMessage}
+          />
         )}
-        <CreateUserForm formType="SIGN_UP" handleSubmit={this.createUser} />
+        {!message && (
+          <CreateUserForm formType="SIGN_UP" handleSubmit={this.createUser} />
+        )}
       </div>
     );
   }

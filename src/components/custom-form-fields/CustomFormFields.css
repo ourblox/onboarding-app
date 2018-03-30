@@ -1,20 +1,16 @@
 .EnterNumber,
 .EnterPasscode {
-  background: none;
-  border: none;
-  outline: none;
-  border-bottom: 1px dotted white;
-  font-size: 2.5rem;
+  background: white;
+  font-size: 1.5rem;
   text-align: center;
-  width: 50%;
   display: block;
-  margin: auto;
-  color: white;
+  margin: 0 auto 1rem;
+  border: none;
+  color: var(--text-color);
   border-left: none !important;
 }
 
 .EnterNumber {
-  margin-bottom: 0;
 }
 
 .EnterPasscode {
@@ -23,6 +19,5 @@
 
 .EnterNumber::placeholder,
 .EnterPasscode::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 16px;
+  color: var(--soft-grey);
 }

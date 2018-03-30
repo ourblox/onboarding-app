@@ -134,6 +134,11 @@ class AppRoutes extends Component {
     );
   };
 
+  BloxFAQsWrapper = () => {
+    const { buildingName } = this.props;
+    return <BloxFAQs buildingName={buildingName} />;
+  };
+
   CreateUserWrapper = () => {
     const { remoteDb, loggedIn, buildingSlug } = this.props;
     return (
@@ -154,7 +159,7 @@ class AppRoutes extends Component {
     return (
       <Switch>
         <Route path="/dashboard" component={this.DashboardWrapper} />
-        <Route path="/blox-faqs" component={BloxFAQs} />
+        <Route path="/blox-faqs" component={this.BloxFAQsWrapper} />
         <Route path="/privacy" component={Privacy} />
         <Route path="/login" component={this.LoginWrapper} />
         <Route path="/add-home" component={this.CreateHomeWrapper} />

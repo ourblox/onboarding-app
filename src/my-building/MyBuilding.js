@@ -27,22 +27,18 @@ class MyBuilding extends Component {
       <div className="MyBuilding ContentContainer">
         {buildingName && (
           <div>
-            <p>
-              Hello. We’re aiming to get everyone in {buildingName} onto the
-              same energy provider. We’re doing this to save everyone money.
-            </p>
+            <h2>Blox:Pool at {buildingName} </h2>
             <p>
               Blox Pool enables you to work with your neighbours to demand
-              cheaper energy from the suppliers. Our app helps you organise and
-              we will handle the switching. We expect you to save quite a bit of
-              money.{' '}
+              cheaper energy from the suppliers. We expect you to save quite a
+              bit of money.{' '}
             </p>
             <p>
               If you received a card, please login using the details on the card
               and input your current energy details. We will handle the rest!
             </p>
 
-            <Link className="BigButton MyBuilding-CTA" to="/login">
+            <Link className="BigButton" to="/login">
               Login now
             </Link>
             <p>

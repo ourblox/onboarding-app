@@ -25,8 +25,7 @@ class MyHome extends Component {
     const { localDb, buildingName, buildingSlug, flatNumber } = this.props;
     const { ready } = this.state;
     return (
-      <div className="MyHome ContentContainer">
-        <h2>Your information</h2>
+      <div className="MyHome">
         {ready &&
           flatNumber && (
             <CreateHomeForm

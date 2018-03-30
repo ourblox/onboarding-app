@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './BloxFAQs.css';
 
 class BloxFAQs extends Component {
+  static propTypes = {
+    buildingName: PropTypes.string
+  };
+
   render() {
+    const { buildingName } = this.props;
     return (
       <div className="BloxFAQs ContentContainer">
         <dl>
@@ -14,7 +20,7 @@ class BloxFAQs extends Component {
             - all whilst getting to know your neighbours better!
           </dd>
 
-          <dt>Why this block?</dt>
+          <dt>Why {buildingName ? buildingName : `this block`}?</dt>
           <dd>
             We chose your block because we understand you are with different
             energy providers. We also live around the corner!

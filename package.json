@@ -16,7 +16,8 @@
     "react-dom": "^16.2.0",
     "react-form": "^3.3.2",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.1"
+    "react-scripts": "1.1.1",
+    "svg.js": "^2.6.4"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css}": [

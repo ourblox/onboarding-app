@@ -11,7 +11,7 @@ class FooterNav extends Component {
   render() {
     const { loggedIn } = this.props;
     return (
-      <nav className="NavBar">
+      <nav className="NavBar FooterNav">
         <ul>
           <li>
             <NavLink to="/privacy">Privacy</NavLink>

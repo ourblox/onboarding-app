@@ -6,15 +6,24 @@
 
 .NavBar {
   margin-top: 0;
+  background: var(--dark-bg-color);
+  border-top: none;
+}
+
+.FooterNav {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
 }
 
 .NavBar ul {
+  margin: 0;
   list-style: none;
   padding: 0;
   float: left;
   width: 100%;
   text-align: center;
-  border-top: 1px dotted rgba(255, 255, 255, 0.5);
 }
 
 .NavBar li {
@@ -27,13 +36,12 @@
 
 .NavBar li a {
   display: block;
-  padding: 8px 0 4px;
-  margin: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin: 0rem;
   color: white;
   text-decoration: none;
-  border-bottom: 1px dashed white;
 }
 
 .NavBar li a.active {
-  border-bottom: 1px solid white;
+  background: var(--darker-bg-color);
 }

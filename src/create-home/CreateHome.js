@@ -51,14 +51,12 @@ class CreateHome extends Component {
         )}
         {formBegun &&
           buildingSlug && (
-            <div className="ContentContainer">
-              <CreateHomeForm
-                flatNumber={flatNumber}
-                localDb={localDb}
-                buildingSlug={buildingSlug}
-                buildingName={buildingName}
-              />
-            </div>
+            <CreateHomeForm
+              flatNumber={flatNumber}
+              localDb={localDb}
+              buildingSlug={buildingSlug}
+              buildingName={buildingName}
+            />
           )}
       </div>
     );

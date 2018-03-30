@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import LoginForm from './LoginForm.js';
+import DismissableMessage from '../components/dismissable-message/DismissableMessage';
 import './Login.css';
 
 const Admins = ['ali', 'pete', 'sam', 'blox_admin', 'aliblackwell'];
@@ -59,12 +60,14 @@ class Login extends Component {
         {!loggedIn && (
           <div>
             {message && (
-              <div className="CreateUser-messages BoxContainer">
-                <p>{message}</p>
-                <button onClick={this.dismissMessage}>Dismiss</button>
-              </div>
+              <DismissableMessage
+                message={message}
+                handleDismissMessage={this.dismissMessage}
+              />
             )}
-            <LoginForm formType="LOGIN" handleSubmit={this.logInUser} />
+            {!message && (
+              <LoginForm formType="LOGIN" handleSubmit={this.logInUser} />
+            )}
           </div>
         )}
         {loggedIn && !admin && <Redirect to="/my-home" />}

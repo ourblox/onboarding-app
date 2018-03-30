@@ -15,7 +15,7 @@ class LoginForm extends Component {
   render() {
     const { handleSubmit, formType } = this.props;
     return (
-      <div className="LoginForm BoxContainer">
+      <div className="LoginForm BoxContainer clearfix">
         <h3>
           {formType === 'SIGN_UP'
             ? 'Add new account'

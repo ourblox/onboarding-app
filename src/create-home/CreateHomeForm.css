@@ -8,24 +8,19 @@
   display: inline-block;
   float: left;
   padding-bottom: 4px;
-  border-bottom: 1px dashed white;
+  font-size: 1.3rem;
 }
 
 .CreateHome-form input,
 .CreateHome-form select {
-  background: none;
-  border: none;
-  color: white;
   width: 100%;
-  border-bottom: 1px dashed white;
-  border-left: 1px dashed white;
-  margin-bottom: 32px;
   margin-top: 0;
+  background: white;
+  border-radius: 0;
 }
 
 .CreateHome-form input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 16px;
+  color: var(--soft-grey);
 }
 
 .CreateHome-submitButton,

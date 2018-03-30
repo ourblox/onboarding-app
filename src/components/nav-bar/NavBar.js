@@ -52,6 +52,9 @@ class NavBar extends Component {
                 </NavLink>
               </li>
               <li>
+                <NavLink to="/blox-faqs">FAQs</NavLink>
+              </li>
+              <li>
                 <NavLink to="/my-home">My Home</NavLink>
               </li>
             </ul>
