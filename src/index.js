@@ -67,14 +67,12 @@ for (var i = 0; i < fullWidth + 1; i++) {
   yPos = 0;
 }
 
-for (var i = 0; i < rects.length; i++) {
-  const rect = rects[i].rect;
-  const xPos = rects[i].xPos;
-  const yPos = rects[i].yPos;
+for (var k = 0; k < rects.length; k++) {
+  const rect = rects[k].rect;
+  const xPos = rects[k].xPos;
+  const yPos = rects[k].yPos;
   rect.animate(1000, '<', 0).attr({ x: xPos, y: height - yPos });
 }
-
-console.log(rects);
 
 ReactDOM.render(
   <BrowserRouter>

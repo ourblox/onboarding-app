@@ -185,8 +185,7 @@ class App extends Component {
       flatNumber,
       remoteDb,
       loginDb,
-      localDb,
-      message
+      localDb
     } = this.state;
     return (
       <div className="App">
