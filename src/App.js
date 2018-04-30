@@ -3,12 +3,9 @@ import { withRouter } from 'react-router';
 import AppRoutes from './AppRoutes';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import logo from './blox.svg';
-
 import PouchDB from 'pouchdb';
 import PDAuth from 'pouchdb-authentication';
 
-import NavBar from './components/nav-bar/NavBar';
 import FooterNav from './components/nav-bar/FooterNav';
 import './App.css';
 
@@ -17,7 +14,7 @@ PouchDB.plugin(PDAuth);
 const Buildings = {
   cdh: 'Charles Dickens House',
   wph: 'Welshpool House',
-  test: 'Verdigris Apartments'
+  vdg: 'Verdigris Apartments'
 };
 
 class App extends Component {
@@ -39,16 +36,7 @@ class App extends Component {
   };
 
   setBuildingName = buildingSlug => {
-    if (buildingSlug === 'reset' || buildingSlug === '') {
-      this.setState({
-        buildingName: 'The social network for buildings'
-      });
-    } else if (this.props.location.pathname === '/') {
-      this.setState({
-        buildingName: 'The social network for buildings',
-        buildingSlug: buildingSlug
-      });
-    } else {
+    if (Buildings[buildingSlug]) {
       localStorage.setItem('buildingSlug', buildingSlug);
       this.setState({
         buildingName: Buildings[buildingSlug],
@@ -65,7 +53,6 @@ class App extends Component {
 
   setLoggedOut = () => {
     this.setState({ loggedIn: false });
-    this.checkSession();
   };
 
   setupLocalPouchDB = () => {
@@ -189,13 +176,6 @@ class App extends Component {
     } = this.state;
     return (
       <div className="App">
-        <header className="App-header">
-          <NavLink to="/">
-            <img src={logo} className="App-logo" alt="Blox" />
-          </NavLink>
-          <h2 className="App-BuildingName">{buildingName}</h2>
-        </header>
-        <NavBar loggedIn={loggedIn} admin={admin} buildingSlug={buildingSlug} />
         <AppRoutes
           loggedIn={loggedIn}
           setLoggedIn={this.setLoggedIn}
@@ -209,9 +189,6 @@ class App extends Component {
           localDb={localDb}
           flatNumber={flatNumber}
         />
-        <footer>
-          <FooterNav loggedIn={loggedIn} />
-        </footer>
       </div>
     );
   }

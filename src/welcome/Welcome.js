@@ -20,22 +20,27 @@ class Welcome extends Component {
     }
   };
   render() {
+    const { setBuildingName } = this.props;
     return (
       <div className="Welcome ContentContainer">
-        <h2>Introducing Blox Pool</h2>
-        <p>
-          Our first tool is Blox Pool, enabling people to save money on their
-          energy by working together to bargain collectively.
-        </p>
-        <p>
-          We are running pilot projects at the following addresses. If you have
-          met one of our team or been left a card, please choose your address to
-          proceed.
-        </p>
+        <p>We are Blox. We are going to save you money.</p>
         <ul className="Welcome-ButtonList">
           <li>
-            <Link className="BigButton" to="/wph">
+            <Link
+              className="BigButton"
+              to="/login"
+              onClick={() => setBuildingName('wph')}
+            >
               Welshpool House
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="BigButton"
+              to="/login"
+              onClick={() => setBuildingName('vdg')}
+            >
+              Verdigris Apartments
             </Link>
           </li>
         </ul>

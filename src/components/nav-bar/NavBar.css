@@ -8,6 +8,9 @@
   margin-top: 0;
   background: var(--dark-bg-color);
   border-top: none;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
 }
 
 .FooterNav {

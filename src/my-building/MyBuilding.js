@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './MyBuilding.css';
 
+import ProgressVisualization from '../components/progress-visualization/Progress';
+
 class MyBuilding extends Component {
   static propTypes = {
     buildingName: PropTypes.string,
@@ -44,6 +46,7 @@ class MyBuilding extends Component {
             <p>
               Questions? please <Link to="/blox-faqs">browse our FAQs</Link>{' '}
             </p>
+            <ProgressVisualization />
           </div>
         )}
       </div>

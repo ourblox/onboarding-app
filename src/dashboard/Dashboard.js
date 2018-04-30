@@ -3,6 +3,8 @@ import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './Dashboard.css';
 
+import ProgressVisualization from '../components/progress-visualization/Progress';
+
 class Dashboard extends Component {
   static propTypes = {
     localDb: PropTypes.object.isRequired,
@@ -50,6 +52,10 @@ class Dashboard extends Component {
           }
         })
         .catch(err => {
+          this.setState({
+            checked: true,
+            building: null
+          });
           console.debug(err);
         });
     }
@@ -58,15 +64,19 @@ class Dashboard extends Component {
   render() {
     const { buildingName, loggedIn } = this.props;
     const { building, signedUp, checked } = this.state;
+    console.log(building, checked);
     return (
       <div className="Dashboard">
         {!loggedIn && <Redirect to="/login" />}
         {building &&
           checked && (
-            <p>
-              There are {building.flats} residences in {buildingName}. So far,{' '}
-              {signedUp} flats have signed up.
-            </p>
+            <div>
+              <p>
+                There are {building.flats} residences in {buildingName}. So far,{' '}
+                {signedUp} flats have signed up.
+              </p>
+              <ProgressVisualization />
+            </div>
           )}
         {!building &&
           checked && <p>No building found. Please refresh and try again.</p>}

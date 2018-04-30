@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Lato|Playfair+Display');
+@import url('https://fonts.googleapis.com/css?family=PT+Sans:400,700');
 
 :root {
-  --font-family-A: 'Lato', sans-serif;
-  --font-family-B: 'Playfair Display', serif;
-  --bg-color: rgb(35, 141, 203);
-  --dark-bg-color: rgb(25, 120, 187);
-  --darker-bg-color: #04538e;
+  --font-family-A: 'PT Sans', sans-serif;
+  --font-family-B: 'PT Sans', sans-serif;
+  --bg-color: #777677;
+  --dark-bg-color: #777677;
+  --darker-bg-color: #04538e; /*#6b6b6b */
   --text-color: #222;
   --highlight-color: #e83f6f;
   --soft-grey: rgba(100, 100, 100, 0.4);
@@ -63,6 +63,7 @@ dt {
 dt,
 h2 {
   font-family: var(--font-family-B);
+  font-weight: 700;
   font-size: 1.2rem;
 }
 
@@ -150,6 +151,7 @@ button {
 
 .ContentContainer h2 {
   font-family: var(--font-family-B);
+  font-weight: 700;
   font-size: 1.5rem;
   margin: 0;
 }

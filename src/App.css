@@ -18,13 +18,6 @@
   margin: 1.5rem 0 1rem;
 }
 
-.App-BuildingName {
-  margin: 0;
-  padding-bottom: 1rem;
-  color: var(--darker-bg-color);
-  font-family: var(--font-family-A);
-}
-
 .App-header {
   background: var(--bg-color);
 }
@@ -36,8 +29,3 @@
 .App-intro {
   font-size: large;
 }
-
-/* @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-} */

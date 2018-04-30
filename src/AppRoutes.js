@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import NavBar from './components/nav-bar/NavBar';
+
+import Splash from './splash/Splash';
 import Dashboard from './dashboard/Dashboard';
 import CreateHome from './create-home/CreateHome';
 import MyHome from './my-home/MyHome';
@@ -28,9 +31,22 @@ class AppRoutes extends Component {
   };
 
   DashboardWrapper = () => {
-    const { localDb, loggedIn, buildingSlug, buildingName } = this.props;
+    const {
+      localDb,
+      loggedIn,
+      buildingSlug,
+      buildingName,
+      admin,
+      flatNumber
+    } = this.props;
     return (
       <div>
+        <NavBar
+          loggedIn={loggedIn}
+          admin={admin}
+          buildingSlug={buildingSlug}
+          flatNumber={flatNumber}
+        />
         {localDb && (
           <Dashboard
             localDb={localDb}
@@ -45,17 +61,20 @@ class AppRoutes extends Component {
   };
 
   CreateHomeWrapper = () => {
-    const { localDb, loggedIn, buildingSlug, buildingName } = this.props;
+    const { localDb, loggedIn, buildingSlug, buildingName, admin } = this.props;
     return (
-      <div className="Content">
-        {localDb && (
-          <CreateHome
-            localDb={localDb}
-            buildingSlug={buildingSlug}
-            buildingName={buildingName}
-          />
-        )}
-        {!localDb && !loggedIn && <Redirect to="/login" />}
+      <div>
+        <NavBar loggedIn={loggedIn} admin={admin} buildingSlug={buildingSlug} />
+        <div className="Content">
+          {localDb && (
+            <CreateHome
+              localDb={localDb}
+              buildingSlug={buildingSlug}
+              buildingName={buildingName}
+            />
+          )}
+          {!localDb && !loggedIn && <Redirect to="/login" />}
+        </div>
       </div>
     );
   };
@@ -66,19 +85,29 @@ class AppRoutes extends Component {
       loggedIn,
       buildingSlug,
       buildingName,
-      flatNumber
+      flatNumber,
+      admin
     } = this.props;
     return (
-      <div className="Content">
-        {localDb && (
-          <MyHome
-            localDb={localDb}
-            buildingSlug={buildingSlug}
-            buildingName={buildingName}
-            flatNumber={flatNumber}
-          />
-        )}
-        {!localDb && !loggedIn && <Redirect to="/login" />}
+      <div>
+        <NavBar
+          loggedIn={loggedIn}
+          admin={admin}
+          buildingSlug={buildingSlug}
+          flatNumber={flatNumber}
+        />
+        <div className="Content">
+          {localDb &&
+            loggedIn && (
+              <MyHome
+                localDb={localDb}
+                buildingSlug={buildingSlug}
+                buildingName={buildingName}
+                flatNumber={flatNumber}
+              />
+            )}
+          {!localDb && !loggedIn && <Redirect to="/login" />}
+        </div>
       </div>
     );
   };
@@ -95,31 +124,79 @@ class AppRoutes extends Component {
     );
   };
 
-  MyBuildingWrapper = props => {
-    const { setBuildingName, buildingName } = this.props;
+  SplashWrapper = props => {
+    const { buildingSlug, setBuildingName } = this.props;
     return (
       <div className="Content">
-        <MyBuilding
+        <Splash
           {...props} // Needed for withRouter props
-          buildingName={buildingName}
+          buildingSlug={buildingSlug}
           setBuildingName={setBuildingName}
         />
       </div>
     );
   };
 
-  LoginWrapper = () => {
-    const { loginDb, loggedIn, setLoggedIn, buildingSlug } = this.props;
+  PrivacyWrapper = () => {
+    const { loggedIn, admin, buildingSlug, flatNumber } = this.props;
     return (
-      <div className="Content">
-        {loginDb && (
-          <Login
-            loggedIn={loggedIn}
-            loginDb={loginDb}
-            handleLogin={setLoggedIn}
-            buildingSlug={buildingSlug}
+      <div>
+        <NavBar
+          loggedIn={loggedIn}
+          admin={admin}
+          buildingSlug={buildingSlug}
+          flatNumber={flatNumber}
+        />
+        <div className="Content">
+          <Privacy />
+        </div>
+      </div>
+    );
+  };
+
+  MyBuildingWrapper = props => {
+    const {
+      setBuildingName,
+      buildingName,
+      loggedIn,
+      admin,
+      buildingSlug,
+      flatNumber
+    } = this.props;
+    return (
+      <div>
+        <NavBar
+          loggedIn={loggedIn}
+          admin={admin}
+          buildingSlug={buildingSlug}
+          flatNumber={flatNumber}
+        />
+        <div className="Content">
+          <MyBuilding
+            {...props} // Needed for withRouter props
+            buildingName={buildingName}
+            setBuildingName={setBuildingName}
           />
-        )}
+        </div>
+      </div>
+    );
+  };
+
+  LoginWrapper = () => {
+    const { loginDb, loggedIn, setLoggedIn, buildingSlug, admin } = this.props;
+    return (
+      <div>
+        <NavBar loggedIn={loggedIn} admin={admin} buildingSlug={buildingSlug} />
+        <div className="Content">
+          {loginDb && (
+            <Login
+              loggedIn={loggedIn}
+              loginDb={loginDb}
+              handleLogin={setLoggedIn}
+              buildingSlug={buildingSlug}
+            />
+          )}
+        </div>
       </div>
     );
   };
@@ -135,43 +212,69 @@ class AppRoutes extends Component {
   };
 
   BloxFAQsWrapper = () => {
-    const { buildingName } = this.props;
-    return <BloxFAQs buildingName={buildingName} />;
+    const {
+      buildingName,
+      loggedIn,
+      buildingSlug,
+      admin,
+      flatNumber
+    } = this.props;
+    return (
+      <div>
+        <NavBar
+          loggedIn={loggedIn}
+          admin={admin}
+          buildingSlug={buildingSlug}
+          flatNumber={flatNumber}
+        />
+        <BloxFAQs buildingName={buildingName} />
+      </div>
+    );
   };
 
   CreateUserWrapper = () => {
-    const { remoteDb, loggedIn, buildingSlug } = this.props;
+    const { remoteDb, loggedIn, buildingSlug, admin } = this.props;
     return (
-      <div className="Content">
-        {remoteDb && (
-          <CreateUser
-            buildingSlug={buildingSlug}
-            remoteDb={remoteDb}
-            loggedIn={loggedIn}
-          />
-        )}
-        {!remoteDb && !loggedIn && <Redirect to="/login" />}
+      <div>
+        <NavBar loggedIn={loggedIn} admin={admin} buildingSlug={buildingSlug} />
+        <div className="Content">
+          {remoteDb && (
+            <CreateUser
+              buildingSlug={buildingSlug}
+              remoteDb={remoteDb}
+              loggedIn={loggedIn}
+            />
+          )}
+          {!remoteDb && !loggedIn && <Redirect to="/login" />}
+        </div>
       </div>
     );
   };
 
   render() {
+    const buildingSlug = localStorage.getItem('buildingSlug');
     return (
       <Switch>
         <Route path="/dashboard" component={this.DashboardWrapper} />
         <Route path="/blox-faqs" component={this.BloxFAQsWrapper} />
-        <Route path="/privacy" component={Privacy} />
+        <Route path="/privacy" component={this.PrivacyWrapper} />
         <Route path="/login" component={this.LoginWrapper} />
         <Route path="/add-home" component={this.CreateHomeWrapper} />
         <Route path="/my-home" component={this.MyHomeWrapper} />
         <Route path="/add-user" component={this.CreateUserWrapper} />
         <Route path="/logout" component={this.LogoutWrapper} />
-        <Route exact path="/" component={this.WelcomeWrapper} />
-        <Route
-          exact
-          path="/:buildingName?/"
-          component={this.MyBuildingWrapper}
-        />
+        <Route path="/welcome" component={this.WelcomeWrapper} />
+        <Route exact path="/" component={this.SplashWrapper} />
+        {buildingSlug && (
+          <Route
+            exact
+            path="/:buildingSlug?/"
+            component={this.MyBuildingWrapper}
+          />
+        )}
+        {!buildingSlug && (
+          <Route exact path="/:buildingSlug?/" component={this.SplashWrapper} />
+        )}
       </Switch>
     );
   }

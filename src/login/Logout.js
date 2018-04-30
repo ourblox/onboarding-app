@@ -22,7 +22,7 @@ class Logout extends Component {
 
   render() {
     const { loggedIn } = this.props;
-    return !loggedIn && <Redirect to="/login" />;
+    return !loggedIn && <Redirect to="/" />;
   }
 }
 

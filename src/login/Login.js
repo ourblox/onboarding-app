@@ -53,10 +53,11 @@ class Login extends Component {
   };
 
   render() {
-    const { loggedIn } = this.props;
+    const { loggedIn, buildingSlug } = this.props;
     const { message, admin } = this.state;
     return (
       <div className="Login">
+        {!loggedIn && !buildingSlug && <Redirect to="/" />}
         {!loggedIn && (
           <div>
             {message && (

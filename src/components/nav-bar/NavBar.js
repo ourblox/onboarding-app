@@ -7,11 +7,12 @@ class NavBar extends Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     admin: PropTypes.bool.isRequired,
-    buildingSlug: PropTypes.string
+    buildingSlug: PropTypes.string,
+    flatNumber: PropTypes.string
   };
 
   render() {
-    const { loggedIn, admin, buildingSlug } = this.props;
+    const { loggedIn, admin, buildingSlug, flatNumber } = this.props;
     const slugURL = `/${buildingSlug}`;
     return (
       <nav className="NavBar">
@@ -20,7 +21,7 @@ class NavBar extends Component {
             {buildingSlug && (
               <li>
                 <NavLink exact to={slugURL}>
-                  My Blox
+                  B
                 </NavLink>
               </li>
             )}
@@ -36,11 +37,10 @@ class NavBar extends Component {
             <li>
               <NavLink to="/blox-faqs">FAQs</NavLink>
             </li>
-            {buildingSlug && (
-              <li>
-                <NavLink to="/login">Login</NavLink>
-              </li>
-            )}
+
+            <li>
+              <NavLink to="/privacy">Privacy</NavLink>
+            </li>
           </ul>
         )}
         {loggedIn &&
@@ -48,14 +48,17 @@ class NavBar extends Component {
             <ul>
               <li>
                 <NavLink exact to="/dashboard">
-                  Dashboard
+                  B
                 </NavLink>
+              </li>
+              <li>
+                <NavLink to="/my-home">No. {flatNumber}</NavLink>
               </li>
               <li>
                 <NavLink to="/blox-faqs">FAQs</NavLink>
               </li>
               <li>
-                <NavLink to="/my-home">My Home</NavLink>
+                <NavLink to="/privacy">Privacy</NavLink>
               </li>
             </ul>
           )}
@@ -64,7 +67,7 @@ class NavBar extends Component {
             <ul>
               <li>
                 <NavLink exact to="/dashboard">
-                  Dashboard
+                  B
                 </NavLink>
               </li>
               <li>
