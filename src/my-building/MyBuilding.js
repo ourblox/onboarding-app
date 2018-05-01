@@ -14,7 +14,8 @@ class MyBuilding extends Component {
 
   componentDidMount = () => {
     const { setBuildingName } = this.props;
-    const urlSlug = this.props.match.params.buildingName;
+    const urlSlug = this.props.match.params.buildingSlug;
+    console.log(urlSlug);
     if (urlSlug) {
       const buildingSlug = urlSlug;
       setBuildingName(buildingSlug);

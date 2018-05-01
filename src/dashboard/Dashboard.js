@@ -64,7 +64,6 @@ class Dashboard extends Component {
   render() {
     const { buildingName, loggedIn } = this.props;
     const { building, signedUp, checked } = this.state;
-    console.log(building, checked);
     return (
       <div className="Dashboard">
         {!loggedIn && <Redirect to="/login" />}

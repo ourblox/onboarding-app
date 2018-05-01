@@ -22,7 +22,12 @@ class Logout extends Component {
 
   render() {
     const { loggedIn } = this.props;
-    return !loggedIn && <Redirect to="/" />;
+    return (
+      <div>
+        {!loggedIn && <Redirect to="/" />}
+        {loggedIn && <p>Error logging out. Please try again.</p>}
+      </div>
+    );
   }
 }
 

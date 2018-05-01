@@ -52,7 +52,11 @@ class App extends Component {
   };
 
   setLoggedOut = () => {
-    this.setState({ loggedIn: false });
+    this.setState({
+      loggedIn: false,
+      buildingSlug: null
+    });
+    localStorage.clear();
   };
 
   setupLocalPouchDB = () => {
